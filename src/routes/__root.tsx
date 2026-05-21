@@ -72,14 +72,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "BB Pillow — Made for a good dream" },
+      { name: "description", content: "BBpillow หมอน ที่นอน เครื่องนอนคุณภาพห้างฯ ในราคาเริ่มต้น 100 บาท" },
+      { property: "og:title", content: "BB Pillow — Made for a good dream" },
+      { property: "og:description", content: "เครื่องนอนคุณภาพห้างฯ ราคาตลาดนัด จาก BBpillow ประเทศไทย" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {
