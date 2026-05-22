@@ -209,8 +209,8 @@ function Wholesale({ lang, nav }) {
               <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12, color: 'rgba(62,42,30,.55)', letterSpacing: '.04em', textTransform: 'uppercase', marginBottom: 8 }}>
                 {lang === 'th' ? 'ติดต่อตรง' : 'Direct contact'}
               </div>
-              <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 15, color: 'var(--soil)', fontWeight: 500 }}>คุณกานต์ · Sales Lead</div>
-              <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13.5, color: 'var(--sky)', marginTop: 4 }}>02-xxx-xxxx · b2b@bbpillow.co.th</div>
+              <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 15, color: 'var(--soil)', fontWeight: 500 }}>คุณบี · Sales Lead</div>
+              <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13.5, color: 'var(--sky)', marginTop: 4 }}>091-8033688 · b2b@bbpillow.co.th</div>
               <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
                 <Btn kind="line" size="sm" full><I.line/> LINE</Btn>
               </div>

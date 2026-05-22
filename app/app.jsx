@@ -222,7 +222,7 @@ function WebHeader({ lang, nav, route, cartCount, b2b }) {
           <button onClick={() => nav('home')} style={{
             appearance: 'none', border: 0, background: 'transparent', cursor: 'pointer', padding: 0,
           }}>
-            <BBLogo size={22} color="var(--soil)"/>
+            <img src="assets/logo new.jpg" alt="BBPillow" style={{height: 40, display: 'block'}} />
           </button>
           <nav className="bb-nav" style={{ display: 'flex', gap: 22, flex: 1, justifyContent: 'center' }}>
             {links.map(l => (
