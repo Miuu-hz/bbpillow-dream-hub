@@ -203,19 +203,26 @@ function ModeBar({ mode, setMode, lang, setLang }) {
 // ─── Web header ────────────────────────────────────────────
 function WebHeader({ lang, nav, route, cartCount, b2b }) {
   const [open, setOpen] = useStateA(false);
+  const [scrolled, setScrolled] = useStateA(false);
+  useEffectA(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
   const links = [
     { id: 'home', t: window.BB.t('home', lang) },
     { id: 'shop', t: window.BB.t('shop', lang) },
-    { id: 'wholesale', t: window.BB.t('wholesale', lang) },
-    { id: 'story', t: window.BB.t('story', lang) },
   ];
 
   return (
     <>
       <header style={{
-        position: 'sticky', top: 41, zIndex: 70, background: 'rgba(247,245,240,.9)',
-        backdropFilter: 'blur(16px) saturate(140%)',
-        borderBottom: '1px solid rgba(62,42,30,.06)',
+        position: 'sticky', top: 41, zIndex: 70,
+        background: scrolled ? 'rgba(247,245,240,.97)' : 'rgba(247,245,240,.88)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        borderBottom: '1px solid rgba(62,42,30,.07)',
+        boxShadow: scrolled ? '0 4px 24px rgba(62,42,30,.07)' : 'none',
+        transition: 'box-shadow .3s, background .3s',
       }}>
         <div style={{ maxWidth: 1180, margin: '0 auto', display: 'flex', alignItems: 'center', gap: 18,
           padding: '14px 20px' }}>
@@ -224,16 +231,20 @@ function WebHeader({ lang, nav, route, cartCount, b2b }) {
           }}>
             <img src="assets/logo new.jpg" alt="BBPillow" style={{height: 40, display: 'block'}} />
           </button>
-          <nav className="bb-nav" style={{ display: 'flex', gap: 22, flex: 1, justifyContent: 'center' }}>
+          <nav className="bb-nav" style={{ display: 'flex', gap: 6, flex: 1, justifyContent: 'center' }}>
             {links.map(l => (
               <button key={l.id} onClick={() => nav(l.id)} style={{
                 appearance: 'none', border: 0, background: 'transparent', cursor: 'pointer',
                 fontFamily: '"Prompt", sans-serif', fontSize: 14,
-                color: route.screen === l.id ? 'var(--soil)' : 'rgba(62,42,30,.65)',
+                color: route.screen === l.id ? 'var(--soil)' : 'rgba(62,42,30,.55)',
                 fontWeight: route.screen === l.id ? 500 : 400,
-                padding: '4px 0', borderBottom: '1.5px solid',
-                borderColor: route.screen === l.id ? 'var(--clay)' : 'transparent',
-              }}>{l.t}</button>
+                padding: '6px 14px', borderRadius: 999,
+                background: route.screen === l.id ? 'rgba(62,42,30,.06)' : 'transparent',
+                transition: 'background .15s, color .15s',
+              }}
+              onMouseEnter={(e) => { if (route.screen !== l.id) e.currentTarget.style.background = 'rgba(62,42,30,.04)'; }}
+              onMouseLeave={(e) => { if (route.screen !== l.id) e.currentTarget.style.background = 'transparent'; }}
+              >{l.t}</button>
             ))}
           </nav>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -264,26 +275,39 @@ function WebHeader({ lang, nav, route, cartCount, b2b }) {
           position: 'fixed', inset: 0, background: 'rgba(62,42,30,.4)', zIndex: 200,
         }}>
           <div onClick={(e) => e.stopPropagation()} style={{
-            position: 'absolute', right: 0, top: 0, bottom: 0, width: 'min(80vw, 320px)',
-            background: 'var(--paper)', padding: '20px 18px', display: 'flex', flexDirection: 'column', gap: 12,
+            position: 'absolute', right: 0, top: 0, bottom: 0, width: 'min(80vw, 300px)',
+            background: 'var(--paper)', padding: '22px 20px', display: 'flex', flexDirection: 'column',
+            boxShadow: '-8px 0 40px rgba(62,42,30,.12)',
           }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <BBLogo size={20}/>
-              <button onClick={() => setOpen(false)} style={navBtn}><I.close/></button>
+              <button onClick={() => setOpen(false)} style={{ ...navBtn, background: 'rgba(62,42,30,.06)' }}><I.close/></button>
             </div>
-            {links.map(l => (
-              <button key={l.id} onClick={() => { nav(l.id); setOpen(false); }} style={{
-                appearance: 'none', border: 0, background: 'transparent', cursor: 'pointer',
-                fontFamily: '"Prompt", sans-serif', fontSize: 16, textAlign: 'left',
-                padding: '12px 4px', borderBottom: '1px solid rgba(62,42,30,.08)',
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+              {links.map(l => (
+                <button key={l.id} onClick={() => { nav(l.id); setOpen(false); }} style={{
+                  appearance: 'none', border: 0, cursor: 'pointer',
+                  fontFamily: '"Prompt", sans-serif', fontSize: 17, textAlign: 'left',
+                  padding: '14px 12px', borderRadius: 12,
+                  background: route.screen === l.id ? 'rgba(62,42,30,.06)' : 'transparent',
+                  color: 'var(--soil)', fontWeight: route.screen === l.id ? 500 : 400,
+                }}>{l.t}</button>
+              ))}
+              <button onClick={() => { nav('dashboard'); setOpen(false); }} style={{
+                appearance: 'none', border: 0, cursor: 'pointer',
+                fontFamily: '"Prompt", sans-serif', fontSize: 17, textAlign: 'left',
+                padding: '14px 12px', borderRadius: 12, background: 'transparent',
                 color: 'var(--soil)',
-              }}>{l.t}</button>
-            ))}
-            <button onClick={() => { nav('dashboard'); setOpen(false); }} style={{
-              appearance: 'none', border: 0, background: 'transparent', cursor: 'pointer',
-              fontFamily: '"Prompt", sans-serif', fontSize: 16, textAlign: 'left',
-              padding: '12px 4px', color: 'var(--soil)',
-            }}>{window.BB.t('account', lang)}</button>
+              }}>{window.BB.t('account', lang)}</button>
+            </div>
+            <div style={{ paddingTop: 16, borderTop: '1px solid rgba(62,42,30,.08)' }}>
+              <button style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: '#06C755', color: '#fff', border: 'none', cursor: 'pointer',
+                padding: '11px 18px', borderRadius: 999, width: '100%', justifyContent: 'center',
+                fontFamily: '"Prompt", sans-serif', fontSize: 14, fontWeight: 500,
+              }}><I.line/> {lang === 'th' ? 'เพิ่มเพื่อน LINE' : 'Add LINE friend'}</button>
+            </div>
           </div>
         </div>
       )}
@@ -319,9 +343,9 @@ function WebFooter({ lang, nav }) {
           { t: lang === 'th' ? 'ผ้าห่ม' : 'Blankets', go: () => nav('shop', { cat: 'blanket' }) },
         ]}/>
         <FootCol title={lang === 'th' ? 'บริษัท' : 'Company'} items={[
-          { t: window.BB.t('story', lang), go: () => nav('story') },
-          { t: window.BB.t('wholesale', lang), go: () => nav('wholesale') },
+          { t: lang === 'th' ? 'เกี่ยวกับเรา' : 'About us', go: () => nav('story') },
           { t: lang === 'th' ? 'ติดต่อ' : 'Contact', go: () => {} },
+          { t: lang === 'th' ? 'สำหรับองค์กร' : 'For business', go: () => nav('wholesale') },
         ]}/>
         <FootCol title={lang === 'th' ? 'ลูกค้า' : 'Customer'} items={[
           { t: lang === 'th' ? 'นโยบายคืนสินค้า' : 'Returns', go: () => {} },
@@ -335,7 +359,7 @@ function WebFooter({ lang, nav }) {
           © 2026 BBpillow Co., Ltd. {window.BB.t('rightsReserved', lang)}.
         </div>
         <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12, opacity: 0.55 }}>
-          {lang === 'th' ? 'เลขทะเบียนนิติบุคคล 0105563xxxxxx' : 'Reg. 0105563xxxxxx'}
+          {lang === 'th' ? 'เลขทะเบียนนิติบุคคล 0463565001158' : 'Reg. 0463565001158'}
         </div>
       </div>
     </footer>

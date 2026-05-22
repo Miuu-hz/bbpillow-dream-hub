@@ -83,6 +83,8 @@ function Btn({ kind = 'primary', size = 'md', icon, children, onClick, full, dis
     <button type={type} onClick={onClick} disabled={disabled}
       onMouseEnter={(e) => !disabled && (e.currentTarget.style.transform = 'translateY(-1px)')}
       onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+      onMouseDown={(e) => !disabled && (e.currentTarget.style.transform = 'scale(.96)')}
+      onMouseUp={(e) => !disabled && (e.currentTarget.style.transform = 'translateY(-1px)')}
       style={{ ...base, ...sizes[size], ...kinds[kind], ...style }}>
       {icon}
       {children}
@@ -129,19 +131,34 @@ function Badge({ children, kind = 'soil' }) {
 // Product card
 // ─────────────────────────────────────────────────────────────
 function ProductCard({ p, lang, onClick, onAdd, compact }) {
+  const [liked, setLiked] = useState(false);
   const name = lang === 'th' ? p.th : p.en;
   const off = Math.round(((p.compare - p.price) / p.compare) * 100);
   return (
     <div onClick={onClick} style={{
-      background: '#fff', borderRadius: 18, overflow: 'hidden',
-      border: '1px solid rgba(62,42,30,.06)', cursor: 'pointer',
-      transition: 'transform .2s, box-shadow .2s',
+      background: '#fff', borderRadius: 20, overflow: 'hidden',
+      border: '1px solid rgba(62,42,30,.07)', cursor: 'pointer',
+      transition: 'transform .25s cubic-bezier(.25,.46,.45,.94), box-shadow .25s',
       display: 'flex', flexDirection: 'column',
+      boxShadow: '0 2px 8px rgba(62,42,30,.04)',
     }}
-    onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 28px rgba(62,42,30,.08)'; }}
-    onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}>
+    onMouseEnter={(e) => {
+      e.currentTarget.style.transform = 'translateY(-4px)';
+      e.currentTarget.style.boxShadow = '0 18px 48px rgba(62,42,30,.1)';
+      const img = e.currentTarget.querySelector('img');
+      if (img) img.style.transform = 'scale(1.06)';
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.transform = 'translateY(0)';
+      e.currentTarget.style.boxShadow = '0 2px 8px rgba(62,42,30,.04)';
+      const img = e.currentTarget.querySelector('img');
+      if (img) img.style.transform = 'scale(1)';
+    }}>
       <div style={{ position: 'relative', aspectRatio: '1', overflow: 'hidden', background: '#EDE8DC' }}>
-        <img src={p.img} alt={name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+        <img src={p.img} alt={name} loading="lazy" style={{
+          width: '100%', height: '100%', objectFit: 'cover',
+          transition: 'transform .5s cubic-bezier(.25,.46,.45,.94)',
+        }}/>
         {off > 0 && (
           <div style={{ position: 'absolute', top: 10, left: 10 }}>
             <Badge kind="clay">-{off}%</Badge>
@@ -152,6 +169,19 @@ function ProductCard({ p, lang, onClick, onAdd, compact }) {
             <Badge kind="sage">{lang === 'th' ? 'ใหม่' : 'New'}</Badge>
           </div>
         )}
+        <button onClick={(e) => { e.stopPropagation(); setLiked(l => !l); }} style={{
+          position: 'absolute', bottom: 10, right: 10,
+          width: 32, height: 32, borderRadius: '50%',
+          background: liked ? 'var(--clay)' : 'rgba(255,255,255,.88)',
+          backdropFilter: 'blur(8px)',
+          border: 'none', cursor: 'pointer',
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          color: liked ? '#fff' : 'rgba(62,42,30,.7)',
+          transition: 'all .18s',
+          boxShadow: '0 2px 8px rgba(62,42,30,.15)',
+        }}>
+          <I.heart width={14} height={14} fill={liked ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.8"/>
+        </button>
       </div>
       <div style={{ padding: compact ? 12 : 14, display: 'flex', flexDirection: 'column', gap: 6, flex: 1 }}>
         <div style={{
@@ -174,12 +204,16 @@ function ProductCard({ p, lang, onClick, onAdd, compact }) {
           )}
         </div>
         {!compact && onAdd && (
-          <button onClick={(e) => { e.stopPropagation(); onAdd(p); }} style={{
-            marginTop: 6, padding: '8px 12px', borderRadius: 999,
-            border: '1px solid rgba(62,42,30,.15)', background: 'var(--paper)',
-            color: 'var(--soil)', fontFamily: '"Prompt", sans-serif', fontSize: 13, fontWeight: 500,
-            cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-          }}>
+          <button onClick={(e) => { e.stopPropagation(); onAdd(p); }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--clay)'; e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'var(--clay)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--paper)'; e.currentTarget.style.color = 'var(--soil)'; e.currentTarget.style.borderColor = 'rgba(62,42,30,.15)'; }}
+            style={{
+              marginTop: 6, padding: '9px 12px', borderRadius: 999,
+              border: '1px solid rgba(62,42,30,.15)', background: 'var(--paper)',
+              color: 'var(--soil)', fontFamily: '"Prompt", sans-serif', fontSize: 13, fontWeight: 500,
+              cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+              transition: 'all .18s',
+            }}>
             <I.plus/> {window.BB.t('addToCart', lang)}
           </button>
         )}
@@ -197,8 +231,12 @@ function SectionHd({ eyebrow, title, sub, action }) {
       <div>
         {eyebrow && <div style={{
           fontFamily: '"Sarabun", sans-serif', fontSize: 12, fontWeight: 500,
-          letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--clay)', marginBottom: 6,
-        }}>{eyebrow}</div>}
+          letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--clay)', marginBottom: 8,
+          display: 'flex', alignItems: 'center', gap: 8,
+        }}>
+          <span style={{ width: 20, height: 2, background: 'var(--clay)', display: 'inline-block', borderRadius: 999, flexShrink: 0 }}/>
+          {eyebrow}
+        </div>}
         <h2 style={{
           fontFamily: '"Prompt", sans-serif', fontSize: 'clamp(22px, 4.5vw, 32px)', fontWeight: 500,
           color: 'var(--soil)', margin: 0, letterSpacing: '-0.01em', lineHeight: 1.15,

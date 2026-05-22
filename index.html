@@ -29,11 +29,25 @@
     h1, h2, h3, h4, h5 { font-family: var(--heading-font), sans-serif; }
     button { font: inherit; }
     img { display: block; }
-    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(62,42,30,.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: rgba(62,42,30,.2); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(62,42,30,.32); }
     [style*="overflow-x:auto"]::-webkit-scrollbar,
     [style*="overflow-x: auto"]::-webkit-scrollbar { display: none; }
+
+    html { scroll-behavior: smooth; }
+    ::selection { background: rgba(192,108,83,.18); color: var(--soil); }
+    button { -webkit-tap-highlight-color: transparent; }
+    a { -webkit-tap-highlight-color: transparent; }
+
+    @keyframes bbFadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
 
     /* Responsive */
     @media (max-width: 860px) {

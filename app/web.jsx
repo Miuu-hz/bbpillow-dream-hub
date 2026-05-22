@@ -15,8 +15,9 @@ function Home({ lang, nav, addToCart, density, b2b }) {
     <div>
       {/* Hero */}
       <section style={{
-        padding: density === 'compact' ? '40px 20px 32px' : '60px 20px 48px',
+        padding: density === 'compact' ? '48px 20px 40px' : '72px 20px 60px',
         position: 'relative', overflow: 'hidden',
+        background: 'radial-gradient(circle at 70% 40%, rgba(58,110,165,.06) 0%, transparent 55%), radial-gradient(circle at 8% 80%, rgba(192,108,83,.07) 0%, transparent 45%)',
       }}>
         <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid',
           gridTemplateColumns: 'minmax(0,1fr) minmax(0,0.95fr)', gap: 40, alignItems: 'center' }}
@@ -31,8 +32,8 @@ function Home({ lang, nav, addToCart, density, b2b }) {
               {window.BB.t('heroEyebrow', lang)}
             </div>
             <h1 style={{
-              fontFamily: '"Prompt", sans-serif', fontSize: 'clamp(34px, 5.5vw, 58px)', fontWeight: 500,
-              color: 'var(--soil)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.05,
+              fontFamily: '"Prompt", sans-serif', fontSize: 'clamp(36px, 6vw, 64px)', fontWeight: 600,
+              color: 'var(--soil)', margin: 0, letterSpacing: '-0.025em', lineHeight: 1.08,
               textWrap: 'balance',
             }}>
               {lang === 'th' ? (
@@ -55,9 +56,11 @@ function Home({ lang, nav, addToCart, density, b2b }) {
                 {window.BB.t('bulkInquiry', lang)}
               </Btn>
             </div>
-            <div style={{ display: 'flex', gap: 28, marginTop: 36, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', gap: 0, marginTop: 36, flexWrap: 'wrap', alignItems: 'center' }}>
               <Stat n="22M฿" l={lang === 'th' ? 'ยอดขายต่อปี' : 'Annual revenue'}/>
+              <div style={{ width: 1, height: 36, background: 'rgba(62,42,30,.13)', margin: '0 24px' }}/>
               <Stat n="100K+" l={lang === 'th' ? 'ลูกค้าทั่วประเทศ' : 'Customers nationwide'}/>
+              <div style={{ width: 1, height: 36, background: 'rgba(62,42,30,.13)', margin: '0 24px' }}/>
               <Stat n="4.8★" l={lang === 'th' ? 'จากรีวิวจริง' : 'Verified reviews'}/>
             </div>
           </div>
@@ -70,9 +73,9 @@ function Home({ lang, nav, addToCart, density, b2b }) {
       </section>
 
       {/* Why us — value props */}
-      <section style={{ padding: '32px 20px', background: 'rgba(58,110,165,.04)' }}>
+      <section style={{ padding: '48px 20px', borderBottom: '1px solid rgba(62,42,30,.06)' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }}>
+          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
           <ValueProp icon={<I.truck/>} t={lang === 'th' ? 'ส่งฟรี 500.-' : 'Free shipping ฿500+'} s={lang === 'th' ? 'ทั่วประเทศ 2–4 วัน' : 'Nationwide 2–4 days'}/>
           <ValueProp icon={<I.shield/>} t={lang === 'th' ? 'รับประกัน 1 ปี' : '1-year warranty'} s={lang === 'th' ? 'ทุกชิ้นมีใบรับประกัน' : 'Every item covered'}/>
           <ValueProp icon={<I.refresh/>} t={lang === 'th' ? 'คืนใน 7 วัน' : '7-day returns'} s={lang === 'th' ? 'ไม่พอใจคืนเงิน' : 'Refund if not satisfied'}/>
@@ -194,7 +197,7 @@ function Home({ lang, nav, addToCart, density, b2b }) {
       )}
 
       {/* LINE newsletter */}
-      <section style={{ padding: '56px 20px', background: '#EEEAE0' }}>
+      <section style={{ padding: '64px 20px', background: 'linear-gradient(150deg, #EEE9DE 0%, #E4DCCE 50%, #D8CEBC 100%)' }}>
         <div style={{ maxWidth: 720, margin: '0 auto', textAlign: 'center' }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 12px',
@@ -220,24 +223,33 @@ function Home({ lang, nav, addToCart, density, b2b }) {
 function Stat({ n, l }) {
   return (
     <div>
-      <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 26, fontWeight: 500, color: 'var(--soil)', letterSpacing: '-0.01em' }}>{n}</div>
-      <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, color: 'rgba(62,42,30,.55)', marginTop: 2 }}>{l}</div>
+      <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 28, fontWeight: 600, color: 'var(--soil)', letterSpacing: '-0.02em', lineHeight: 1 }}>{n}</div>
+      <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, color: 'rgba(62,42,30,.55)', marginTop: 5 }}>{l}</div>
     </div>
   );
 }
 
 function ValueProp({ icon, t, s }) {
   return (
-    <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start', padding: '6px 4px' }}>
+    <div
+      onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(62,42,30,.07)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(62,42,30,.04)'; }}
+      style={{
+        display: 'flex', gap: 16, alignItems: 'flex-start',
+        padding: '22px 20px', background: '#fff', borderRadius: 18,
+        border: '1px solid rgba(62,42,30,.07)',
+        boxShadow: '0 2px 8px rgba(62,42,30,.04)',
+        transition: 'transform .2s, box-shadow .2s',
+      }}>
       <div style={{
-        width: 42, height: 42, borderRadius: 12, background: '#fff',
+        width: 46, height: 46, borderRadius: 14, flexShrink: 0,
+        background: 'linear-gradient(135deg, rgba(58,110,165,.12), rgba(58,110,165,.05))',
         display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-        color: 'var(--sky)', flexShrink: 0,
-        boxShadow: '0 1px 2px rgba(62,42,30,.08)',
+        color: 'var(--sky)',
       }}>{icon}</div>
       <div>
         <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 15, fontWeight: 500, color: 'var(--soil)' }}>{t}</div>
-        <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13, color: 'rgba(62,42,30,.6)', marginTop: 2 }}>{s}</div>
+        <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13, color: 'rgba(62,42,30,.6)', marginTop: 3, lineHeight: 1.4 }}>{s}</div>
       </div>
     </div>
   );
@@ -252,22 +264,26 @@ function CategoryTile({ cat, lang, idx, onClick }) {
     blanket: './assets/ผ้านวม5/IMG_2985.JPG',
   };
   return (
-    <button onClick={onClick} style={{
-      appearance: 'none', border: 0, padding: 0, background: 'transparent',
-      cursor: 'pointer', textAlign: 'left',
-    }}>
+    <button onClick={onClick}
+      onMouseEnter={(e) => { const img = e.currentTarget.querySelector('img'); if (img) img.style.transform = 'scale(1.07)'; }}
+      onMouseLeave={(e) => { const img = e.currentTarget.querySelector('img'); if (img) img.style.transform = 'scale(1)'; }}
+      style={{ appearance: 'none', border: 0, padding: 0, background: 'transparent', cursor: 'pointer', textAlign: 'left' }}>
       <div style={{
-        aspectRatio: '1', borderRadius: 16, overflow: 'hidden',
+        aspectRatio: '3/4', borderRadius: 18, overflow: 'hidden',
         position: 'relative', background: '#EDE8DC',
       }}>
-        <img src={imgs[cat.id]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(180deg, transparent 50%, rgba(62,42,30,.45) 100%)',
+        <img src={imgs[cat.id]} alt="" style={{
+          width: '100%', height: '100%', objectFit: 'cover',
+          transition: 'transform .45s cubic-bezier(.25,.46,.45,.94)',
         }}/>
         <div style={{
-          position: 'absolute', bottom: 10, left: 12, right: 12,
+          position: 'absolute', inset: 0,
+          background: 'linear-gradient(180deg, transparent 40%, rgba(20,10,4,.62) 100%)',
+        }}/>
+        <div style={{
+          position: 'absolute', bottom: 14, left: 14, right: 14,
           color: '#fff', fontFamily: '"Prompt", sans-serif', fontSize: 16, fontWeight: 500,
+          letterSpacing: '-0.01em',
         }}>{lang === 'th' ? cat.th : cat.en}</div>
       </div>
     </button>
@@ -460,8 +476,10 @@ const chkInput = {
 function PDP({ lang, nav, addToCart, route }) {
   const p = window.BB.products.find(x => x.id === route.id) || window.BB.products[0];
   const [qty, setQty] = useStateW(1);
+  const [activeImg, setActiveImg] = useStateW(0);
   const name = lang === 'th' ? p.th : p.en;
   const off = Math.round(((p.compare - p.price) / p.compare) * 100);
+  const gallery = p.gallery || [p.img, p.img, p.img, p.img];
 
   return (
     <div style={{ maxWidth: 1180, margin: '0 auto', padding: '20px 20px 64px' }}>
@@ -476,15 +494,18 @@ function PDP({ lang, nav, addToCart, route }) {
           <div style={{
             aspectRatio: '1', borderRadius: 20, overflow: 'hidden', background: '#EDE8DC', marginBottom: 12,
           }}>
-            <img src={p.img} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+            <img src={gallery[activeImg]} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity .2s' }}/>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
-            {[0,1,2,3].map(i => (
-              <div key={i} style={{
+            {gallery.slice(0, 4).map((img, i) => (
+              <div key={i} onClick={() => setActiveImg(i)} style={{
                 aspectRatio: '1', borderRadius: 12, overflow: 'hidden', background: '#EDE8DC',
-                opacity: i === 0 ? 1 : 0.5, border: i === 0 ? '2px solid var(--clay)' : '2px solid transparent',
+                cursor: 'pointer',
+                border: i === activeImg ? '2px solid var(--clay)' : '2px solid transparent',
+                opacity: i === activeImg ? 1 : 0.65,
+                transition: 'opacity .15s, border-color .15s',
               }}>
-                <img src={p.img + '&sat=-' + (i * 20)} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+                <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
               </div>
             ))}
           </div>
