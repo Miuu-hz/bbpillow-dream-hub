@@ -328,7 +328,7 @@ function WebFooter({ lang, nav }) {
       <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid',
         gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 32 }} className="bb-footer-grid">
         <div>
-          <BBLogo size={20} color="var(--paper)"/>
+          <img src="assets/logo new.jpg" alt="BBPillow" style={{ height: 48, display: 'block', borderRadius: 8, objectFit: 'contain' }}/>
           <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13.5, lineHeight: 1.6, opacity: 0.65, marginTop: 12, maxWidth: 280 }}>
             {lang === 'th' ? window.BB.dict.heroSub.th : window.BB.dict.heroSub.en}
           </p>
