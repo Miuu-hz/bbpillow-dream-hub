@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>BBpillow — Platform Specs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --paper: #F7F5F0; --soil: #3E2A1E; --sky: #3A6EA5; --clay: #C06C53; --sage: #5d6a3f;
+      --mute: rgba(62,42,30,.6); --line: rgba(62,42,30,.1);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--paper); color: var(--soil);
+      font-family: "Sarabun", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      font-size: 15px; line-height: 1.65;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 48px 32px 80px; }
+    h1 { font-family: "Prompt", sans-serif; font-size: clamp(36px, 5vw, 52px); font-weight: 500;
+         letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 12px; }
+    h2 { font-family: "Prompt", sans-serif; font-size: 28px; font-weight: 500; letter-spacing: -0.01em;
+         margin: 48px 0 14px; padding-top: 24px; border-top: 1px solid var(--line); }
+    h3 { font-family: "Prompt", sans-serif; font-size: 19px; font-weight: 500; letter-spacing: -0.005em;
+         margin: 28px 0 12px; }
+    h4 { font-family: "Prompt", sans-serif; font-size: 14px; font-weight: 600; letter-spacing: .06em;
+         text-transform: uppercase; color: var(--clay); margin: 20px 0 10px; }
+    p { margin: 0 0 14px; max-width: 760px; }
+    .eyebrow { font-size: 12.5px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
+               color: var(--clay); margin-bottom: 14px; }
+    a { color: var(--sky); }
+    code, .mono { font-family: "JetBrains Mono", monospace; font-size: 13.5px; }
+    .card { background: #fff; border-radius: 16px; padding: 22px; border: 1px solid rgba(62,42,30,.06); margin: 14px 0; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 760px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    .pill { display: inline-flex; align-items: center; gap: 6px;
+            padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 500;
+            background: rgba(58,110,165,.1); color: var(--sky); font-family: "Sarabun", sans-serif; }
+    .pill.clay { background: rgba(192,108,83,.12); color: var(--clay); }
+    .pill.sage { background: rgba(120,135,90,.14); color: var(--sage); }
+    .pill.soil { background: rgba(62,42,30,.08); color: var(--soil); }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 12px 0; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+    th { font-family: "Prompt", sans-serif; font-weight: 500; font-size: 12.5px;
+         color: var(--mute); letter-spacing: .04em; text-transform: uppercase; }
+    .schema {
+      background: #fff; border-radius: 16px; padding: 20px; border: 1px solid rgba(62,42,30,.06);
+      font-family: "JetBrains Mono", monospace; font-size: 12.5px; line-height: 1.7;
+      overflow-x: auto; white-space: pre;
+    }
+    .schema .k { color: var(--clay); }
+    .schema .c { color: rgba(62,42,30,.45); font-style: italic; }
+    .schema .t { color: var(--sky); }
+    .schema .pk { font-weight: 600; }
+    .schema .fk { text-decoration: underline; }
+    /* Wireframe */
+    .wf { background: #fff; border: 1.5px solid rgba(62,42,30,.12); border-radius: 14px; padding: 14px;
+          font-family: "JetBrains Mono", monospace; font-size: 12px; color: var(--soil); }
+    .wf-block { background: rgba(62,42,30,.04); border: 1px dashed rgba(62,42,30,.22); border-radius: 8px;
+                padding: 14px; margin: 8px 0; text-align: center; line-height: 1.5; }
+    .wf-block.tall { padding: 32px 14px; }
+    .wf-block.tall.sky { background: rgba(58,110,165,.06); border-color: rgba(58,110,165,.25); color: var(--sky); }
+    .wf-block.tall.clay { background: rgba(192,108,83,.07); border-color: rgba(192,108,83,.25); color: var(--clay); }
+    .wf-row { display: grid; gap: 8px; }
+    .wf-row.c2 { grid-template-columns: 1fr 1fr; }
+    .wf-row.c3 { grid-template-columns: 1fr 1fr 1fr; }
+    .wf-row.c4 { grid-template-columns: repeat(4, 1fr); }
+    .wf-row.c5 { grid-template-columns: repeat(5, 1fr); }
+    .wf-bar { background: var(--soil); color: var(--paper); padding: 8px 12px; border-radius: 6px;
+              font-size: 11px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-back { display: inline-flex; align-items: center; gap: 6px; color: var(--sky);
+                text-decoration: none; font-family: "Prompt", sans-serif; font-size: 13px; margin-bottom: 24px; }
+    .toc { background: #fff; border-radius: 12px; padding: 18px 22px; border: 1px solid rgba(62,42,30,.06);
+           margin: 18px 0 32px; }
+    .toc ol { margin: 0; padding-left: 22px; }
+    .toc li { font-family: "Prompt", sans-serif; font-size: 14px; padding: 3px 0; }
+    .toc a { color: var(--soil); text-decoration: none; }
+    .toc a:hover { color: var(--clay); }
+    .stack-item { display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .stack-item:last-child { border-bottom: 0; }
+    .stack-item .name { font-family: "Prompt", sans-serif; font-weight: 500; min-width: 180px; color: var(--soil); }
+    .stack-item .desc { color: var(--mute); font-size: 14px; flex: 1; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <a href="BBpillow.html" class="nav-back">← Back to prototype</a>
+
+  <div class="eyebrow">BBpillow · Platform documentation</div>
+  <h1>Wireframes, database schema &amp; tech stack.</h1>
+  <p style="font-size:17px; color: var(--mute); margin-top: 8px;">
+    Supporting documentation for the BBpillow e-commerce platform — website &amp; LINE Mini-App.
+    Built to serve B2C direct sales and B2B lead generation from a single unified backend.
+  </p>
+
+  <div class="toc">
+    <strong style="font-family: 'Prompt', sans-serif; font-size:13px; letter-spacing:.06em; text-transform:uppercase; color: var(--clay);">Contents</strong>
+    <ol style="margin-top: 10px;">
+      <li><a href="#wireframes">Wireframe outline — Homepage &amp; Shop</a></li>
+      <li><a href="#schema">Database schema — B2C members &amp; B2B leads</a></li>
+      <li><a href="#stack">Recommended tech stack</a></li>
+      <li><a href="#integrations">LINE ecosystem integrations</a></li>
+    </ol>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <h2 id="wireframes">1. Wireframe outline</h2>
+  <p>Mobile-first, structural breakdown. Both pages designed to flex from a 360px viewport up to a 1180px content max.</p>
+
+  <h3>Homepage</h3>
+  <div class="grid-2">
+    <div>
+      <div class="wf">
+        <div class="wf-bar"><span>bbpillow ●</span><span>EN · TH · 🛒 · 👤</span></div>
+        <div class="wf-block tall sky">
+          <strong>HERO</strong><br/>
+          Eyebrow · 100-year brand<br/>
+          H1: "Quality sleep at flea-market prices"<br/>
+          Sub-copy · CTA primary (Shop) · CTA secondary (Bulk inquiry)<br/>
+          Stats: 22M฿ · 100K+ customers · 4.8★<br/>
+          <span style="opacity:.6;">[product imagery composition / right]</span>
+        </div>
+        <div class="wf-row c4">
+          <div class="wf-block">Free<br/>ship</div>
+          <div class="wf-block">1-yr<br/>warranty</div>
+          <div class="wf-block">7-day<br/>returns</div>
+          <div class="wf-block">100-yr<br/>brand</div>
+        </div>
+        <div class="wf-block">CATEGORIES (5 tiles · image + label)</div>
+        <div class="wf-block tall clay">
+          <strong>BEST SELLERS</strong><br/>
+          carousel/grid · 4 product cards · "View all" link
+        </div>
+        <div class="wf-block tall">
+          <strong>BRAND STORY</strong> (dark band)<br/>
+          Portrait of founder · pull quote · CTA "Read story"
+        </div>
+        <div class="wf-block">B2B strip (conditional) — Wholesale inquiry</div>
+        <div class="wf-block">LINE OA · "Add friend, get ฿100 off + points"</div>
+        <div class="wf-bar"><span>Footer · 4 columns</span><span>© 2026</span></div>
+      </div>
+    </div>
+    <div>
+      <h4>Structural notes</h4>
+      <ul style="padding-left: 20px; margin: 0;">
+        <li><strong>Sticky chrome:</strong> mode toggle (web ↔ mini-app) + lang switch · always on top.</li>
+        <li><strong>Hero:</strong> headline split — Thai-first; CTA pair guides B2C left, B2B right.</li>
+        <li><strong>Value props strip:</strong> light tinted band — reduces purchase anxiety up front.</li>
+        <li><strong>Categories:</strong> 5 photo tiles. Tap routes to filtered Shop.</li>
+        <li><strong>Best sellers:</strong> 4 cards. Server-driven from <code>products.sold</code> ranking.</li>
+        <li><strong>Brand story band:</strong> dark soil background — visual rhythm break. Encapsulates Rinen philosophy.</li>
+        <li><strong>LINE CTA:</strong> green-on-cream block — frictionless entry to LOA / Mini-App.</li>
+      </ul>
+      <h4 style="margin-top: 22px;">Hierarchy of intent</h4>
+      <p style="font-size: 14px;">
+        <span class="pill clay">P1</span> Shop CTA (B2C) ·
+        <span class="pill">P2</span> Bulk inquiry (B2B) ·
+        <span class="pill sage">P3</span> LINE add-friend ·
+        <span class="pill soil">P4</span> Brand story
+      </p>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 36px;">Shop / Catalog</h3>
+  <div class="grid-2">
+    <div>
+      <div class="wf">
+        <div class="wf-bar"><span>← Breadcrumb · Home / Shop</span><span>120 items</span></div>
+        <div class="wf-block">H1 · "All products" + count</div>
+        <div class="wf-row c5" style="gap:6px;">
+          <div class="wf-block" style="padding:8px 6px;">All</div>
+          <div class="wf-block" style="padding:8px 6px;">Pillow</div>
+          <div class="wf-block" style="padding:8px 6px;">Mattress</div>
+          <div class="wf-block" style="padding:8px 6px;">Topper</div>
+          <div class="wf-block" style="padding:8px 6px;">Sheet</div>
+        </div>
+        <div class="wf-row" style="grid-template-columns: 200px 1fr; gap:14px; margin-top: 14px;">
+          <div class="wf-block tall" style="padding: 20px 12px;">
+            <strong>FILTERS</strong><br/>
+            ▢ Material<br/>
+            ▢ Price (range)<br/>
+            ◯ Sort by
+          </div>
+          <div class="wf-row c3">
+            <div class="wf-block tall clay">Product card</div>
+            <div class="wf-block tall clay">Product card</div>
+            <div class="wf-block tall clay">Product card</div>
+            <div class="wf-block tall clay">Product card</div>
+            <div class="wf-block tall clay">Product card</div>
+            <div class="wf-block tall clay">Product card</div>
+          </div>
+        </div>
+        <div class="wf-bar"><span>Footer</span><span>Pagination</span></div>
+      </div>
+    </div>
+    <div>
+      <h4>Product card anatomy</h4>
+      <ul style="padding-left: 20px; margin: 0;">
+        <li>Square image · -% badge top-left · "new" badge top-right</li>
+        <li>Bilingual product name (clamp 2 lines)</li>
+        <li>Stars · rating · review count</li>
+        <li>Price (Clay, large) · compare price (strike)</li>
+        <li>Inline "Add to cart" pill on hover/tap</li>
+      </ul>
+      <h4 style="margin-top: 22px;">Filter logic</h4>
+      <p style="font-size: 14px;">
+        Client-side filter for hi-fi feel; server-driven in production via:<br/>
+        <code>GET /products?cat=pillow&amp;mat=microfiber&amp;p_max=300&amp;sort=popular</code>
+      </p>
+      <h4 style="margin-top: 22px;">Mobile behavior</h4>
+      <p style="font-size: 14px;">
+        Filters collapse into a bottom sheet · category chips remain horizontal scroll · grid drops to 2 columns at &lt;860px.
+      </p>
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <h2 id="schema">2. Database schema</h2>
+  <p>PostgreSQL recommended. Schema supports both B2C consumer accounts and B2B lead/quote workflow, plus unified inventory shared by Web + LINE Mini-App.</p>
+
+  <div class="grid-2">
+    <div>
+      <h4>Core entities</h4>
+      <ul style="font-size: 14px; padding-left: 18px;">
+        <li><code>users</code> — B2C customers (LINE-linked)</li>
+        <li><code>addresses</code> — shipping addresses, 1:N to users</li>
+        <li><code>products</code> — master catalog (shared)</li>
+        <li><code>product_variants</code> — size, color, SKU</li>
+        <li><code>inventory</code> — single-source stock per variant</li>
+        <li><code>orders</code> + <code>order_items</code> — B2C transactions</li>
+        <li><code>reviews</code> — UGC, moderated</li>
+        <li><code>loyalty_ledger</code> — point credits/debits</li>
+      </ul>
+    </div>
+    <div>
+      <h4>B2B lead-gen entities</h4>
+      <ul style="font-size: 14px; padding-left: 18px;">
+        <li><code>b2b_leads</code> — quote requests from Wholesale form</li>
+        <li><code>b2b_accounts</code> — converted companies (post-sales contact)</li>
+        <li><code>price_tiers</code> — quantity bands → unit price</li>
+        <li><code>quotes</code> — generated PDFs, lifecycle states</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Schema definition</h3>
+  <div class="schema"><span class="c">-- ───── B2C members + auth ─────</span>
+<span class="k">CREATE TABLE</span> users (
+  <span class="pk">id</span>           <span class="t">uuid</span>      PRIMARY KEY DEFAULT gen_random_uuid(),
+  line_user_id <span class="t">text</span>      UNIQUE,           <span class="c">-- LIFF sub claim</span>
+  email        <span class="t">text</span>      UNIQUE,
+  phone        <span class="t">text</span>,
+  display_name <span class="t">text</span>,
+  avatar_url   <span class="t">text</span>,
+  tier         <span class="t">text</span>      DEFAULT 'soft',   <span class="c">-- soft|warm|gold</span>
+  points       <span class="t">integer</span>   DEFAULT 0,
+  locale       <span class="t">text</span>      DEFAULT 'th',
+  created_at   <span class="t">timestamptz</span> DEFAULT now(),
+  last_login   <span class="t">timestamptz</span>
+);
+
+<span class="k">CREATE TABLE</span> addresses (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  <span class="fk">user_id</span>     <span class="t">uuid</span>     REFERENCES users(id) ON DELETE CASCADE,
+  label       <span class="t">text</span>,                       <span class="c">-- home, office</span>
+  recipient   <span class="t">text</span>,
+  phone       <span class="t">text</span>,
+  line1       <span class="t">text</span>,
+  district    <span class="t">text</span>,
+  city        <span class="t">text</span>,
+  zip         <span class="t">text</span>,
+  is_default  <span class="t">boolean</span>  DEFAULT false
+);
+
+<span class="c">-- ───── catalog (shared by web + mini-app) ─────</span>
+<span class="k">CREATE TABLE</span> products (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  slug        <span class="t">text</span>     UNIQUE,
+  name_th     <span class="t">text</span>     NOT NULL,
+  name_en     <span class="t">text</span>     NOT NULL,
+  desc_th     <span class="t">text</span>,
+  desc_en     <span class="t">text</span>,
+  category    <span class="t">text</span>,                       <span class="c">-- pillow|mattress|sheet|blanket|topper</span>
+  material    <span class="t">text</span>,
+  base_price  <span class="t">integer</span>,                    <span class="c">-- THB</span>
+  compare_at  <span class="t">integer</span>,
+  active      <span class="t">boolean</span>  DEFAULT true,
+  created_at  <span class="t">timestamptz</span> DEFAULT now()
+);
+
+<span class="k">CREATE TABLE</span> product_variants (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  <span class="fk">product_id</span>  <span class="t">uuid</span>     REFERENCES products(id) ON DELETE CASCADE,
+  sku         <span class="t">text</span>     UNIQUE,
+  size        <span class="t">text</span>,
+  color       <span class="t">text</span>,
+  price       <span class="t">integer</span>                      <span class="c">-- override base if set</span>
+);
+
+<span class="k">CREATE TABLE</span> inventory (
+  <span class="fk">variant_id</span>  <span class="t">uuid</span>     PRIMARY KEY REFERENCES product_variants(id),
+  stock       <span class="t">integer</span>  DEFAULT 0,            <span class="c">-- single source of truth</span>
+  reserved    <span class="t">integer</span>  DEFAULT 0,            <span class="c">-- in-flight orders</span>
+  updated_at  <span class="t">timestamptz</span> DEFAULT now()
+);
+
+<span class="c">-- ───── B2C orders ─────</span>
+<span class="k">CREATE TABLE</span> orders (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_no    <span class="t">text</span>     UNIQUE NOT NULL,      <span class="c">-- BB-XXXXXX</span>
+  <span class="fk">user_id</span>     <span class="t">uuid</span>     REFERENCES users(id),
+  channel     <span class="t">text</span>,                          <span class="c">-- web | line_mini</span>
+  status      <span class="t">text</span>     DEFAULT 'pending',    <span class="c">-- pending|paid|shipped|delivered|refunded</span>
+  subtotal    <span class="t">integer</span>,
+  shipping    <span class="t">integer</span>,
+  total       <span class="t">integer</span>,
+  payment     <span class="t">text</span>,                          <span class="c">-- cod|promptpay|card|line_pay</span>
+  <span class="fk">address_id</span>  <span class="t">uuid</span>     REFERENCES addresses(id),
+  notes       <span class="t">text</span>,
+  created_at  <span class="t">timestamptz</span> DEFAULT now()
+);
+
+<span class="k">CREATE TABLE</span> order_items (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  <span class="fk">order_id</span>    <span class="t">uuid</span>     REFERENCES orders(id) ON DELETE CASCADE,
+  <span class="fk">variant_id</span>  <span class="t">uuid</span>     REFERENCES product_variants(id),
+  qty         <span class="t">integer</span>,
+  unit_price  <span class="t">integer</span>
+);
+
+<span class="c">-- ───── loyalty + reviews ─────</span>
+<span class="k">CREATE TABLE</span> loyalty_ledger (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  <span class="fk">user_id</span>     <span class="t">uuid</span>     REFERENCES users(id),
+  delta       <span class="t">integer</span>,                       <span class="c">-- + earn / - redeem</span>
+  reason      <span class="t">text</span>,                          <span class="c">-- order:BB-... / reward:R-...</span>
+  ref_id      <span class="t">uuid</span>,
+  created_at  <span class="t">timestamptz</span> DEFAULT now()
+);
+
+<span class="k">CREATE TABLE</span> reviews (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  <span class="fk">product_id</span>  <span class="t">uuid</span>     REFERENCES products(id),
+  <span class="fk">user_id</span>     <span class="t">uuid</span>     REFERENCES users(id),
+  <span class="fk">order_id</span>    <span class="t">uuid</span>     REFERENCES orders(id),    <span class="c">-- verified purchase</span>
+  stars       <span class="t">smallint</span> CHECK (stars BETWEEN 1 AND 5),
+  body_th     <span class="t">text</span>,
+  body_en     <span class="t">text</span>,
+  photos      <span class="t">text[]</span>,                         <span class="c">-- UGC image URLs</span>
+  status      <span class="t">text</span>     DEFAULT 'pending',     <span class="c">-- pending|approved|rejected</span>
+  created_at  <span class="t">timestamptz</span> DEFAULT now()
+);
+
+<span class="c">-- ───── B2B lead gen ─────</span>
+<span class="k">CREATE TABLE</span> b2b_leads (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  company     <span class="t">text</span>     NOT NULL,
+  contact     <span class="t">text</span>,
+  email       <span class="t">text</span>,
+  phone       <span class="t">text</span>,
+  biz_type    <span class="t">text</span>,                          <span class="c">-- hotel|dorm|retail|other</span>
+  qty_band    <span class="t">text</span>,                          <span class="c">-- 50-99|100-499|...</span>
+  products    <span class="t">uuid[]</span>,                         <span class="c">-- product IDs of interest</span>
+  message     <span class="t">text</span>,
+  status      <span class="t">text</span>     DEFAULT 'new',         <span class="c">-- new|contacted|quoted|won|lost</span>
+  assigned_to <span class="t">uuid</span>,                          <span class="c">-- sales rep id</span>
+  source      <span class="t">text</span>,                          <span class="c">-- web|line|referral</span>
+  created_at  <span class="t">timestamptz</span> DEFAULT now()
+);
+
+<span class="k">CREATE TABLE</span> b2b_accounts (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  <span class="fk">lead_id</span>     <span class="t">uuid</span>     REFERENCES b2b_leads(id),
+  company     <span class="t">text</span>     NOT NULL,
+  tax_id      <span class="t">text</span>,
+  credit_terms <span class="t">text</span>,                         <span class="c">-- net30, prepaid</span>
+  primary_rep <span class="t">uuid</span>,
+  active      <span class="t">boolean</span>  DEFAULT true
+);
+
+<span class="k">CREATE TABLE</span> price_tiers (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  <span class="fk">product_id</span>  <span class="t">uuid</span>     REFERENCES products(id),
+  min_qty     <span class="t">integer</span>,
+  max_qty     <span class="t">integer</span>,
+  unit_price  <span class="t">integer</span>
+);
+
+<span class="k">CREATE TABLE</span> quotes (
+  <span class="pk">id</span>          <span class="t">uuid</span>     PRIMARY KEY DEFAULT gen_random_uuid(),
+  quote_no    <span class="t">text</span>     UNIQUE,
+  <span class="fk">lead_id</span>     <span class="t">uuid</span>     REFERENCES b2b_leads(id),
+  <span class="fk">account_id</span>  <span class="t">uuid</span>     REFERENCES b2b_accounts(id),
+  total       <span class="t">integer</span>,
+  pdf_url     <span class="t">text</span>,
+  valid_until <span class="t">date</span>,
+  status      <span class="t">text</span>     DEFAULT 'draft',       <span class="c">-- draft|sent|accepted|expired</span>
+  created_at  <span class="t">timestamptz</span> DEFAULT now()
+);</div>
+
+  <h4 style="margin-top: 24px;">Key relationships &amp; choices</h4>
+  <ul style="font-size: 14px;">
+    <li><strong>Single product table.</strong> Both B2C and B2B reference the same products. B2B sees additional <code>price_tiers</code>; web only ever shows the base price.</li>
+    <li><strong>Inventory is per-variant, not per-product.</strong> Single row per SKU prevents drift between Web and Mini-App.</li>
+    <li><strong>Channel field on orders.</strong> Lets analytics split web vs LINE revenue without separate tables.</li>
+    <li><strong>Loyalty ledger, not a counter.</strong> Append-only — every earn/redeem is auditable. <code>users.points</code> is a denormalized cache.</li>
+    <li><strong>LINE user ID</strong> = <code>sub</code> claim from LIFF's verified ID token. Source of truth for identity in mini-app.</li>
+    <li><strong>Verified reviews only.</strong> Reviews require an <code>order_id</code> reference; prevents fake UGC.</li>
+  </ul>
+
+  <!-- ───────────────────────────────────────────── -->
+  <h2 id="stack">3. Recommended tech stack</h2>
+  <p>Optimized for speed of delivery, LINE-first user base, and ability to scale from 100K to 1M users without a rewrite.</p>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">Frontend</h3>
+    <div class="stack-item">
+      <span class="name">Next.js 14 (App Router)</span>
+      <span class="desc">Server components for SEO on shop/PDP, edge runtime for the Thai market. Shared component library between web and LIFF view.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">TypeScript + Tailwind</span>
+      <span class="desc">Type-safe data layer end-to-end. Tailwind tokens map directly to the Paper/Soil/Sky/Clay palette in this prototype.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">@line/liff SDK</span>
+      <span class="desc">LIFF v2 for the Mini-App. Wraps LINE Login, profile, message-sharing, and payment intents.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">next-intl</span>
+      <span class="desc">Bilingual TH/EN out of the box, persistent locale via cookie + LINE profile language.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">Backend</h3>
+    <div class="stack-item">
+      <span class="name">NestJS or tRPC + Hono</span>
+      <span class="desc">REST + typed RPC. tRPC is faster to ship since web and mini-app share the call signatures. NestJS is the safer pick if a separate B2B admin team will use the API.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">PostgreSQL (Supabase / Neon)</span>
+      <span class="desc">Managed Postgres + row-level security. Auth, storage, realtime in one. Schema above runs as-is.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">Redis (Upstash)</span>
+      <span class="desc">Cart sessions, rate limits, hot product cache. Edge-replicated for SE-Asia latency.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">BullMQ workers</span>
+      <span class="desc">Background jobs — order confirmations, LINE OA broadcast, low-stock alerts, weekly B2B digest.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">Payments &amp; logistics</h3>
+    <div class="stack-item">
+      <span class="name">Omise / 2C2P</span>
+      <span class="desc">Cards + PromptPay + bank QR. Best Thai-market payment processors.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">LINE Pay</span>
+      <span class="desc">Direct LINE Pay integration for Mini-App orders — 1-tap checkout, native UX.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">Flash Express / Kerry / Thailand Post APIs</span>
+      <span class="desc">Programmatic label generation, tracking webhooks → order status updates.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top: 0;">Ops &amp; analytics</h3>
+    <div class="stack-item">
+      <span class="name">Vercel</span>
+      <span class="desc">Hosting for Next.js · edge functions · preview deploys.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">Sentry + PostHog</span>
+      <span class="desc">Errors + product analytics. PostHog session replay reveals where B2B leads abandon the quote form.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">Cloudinary</span>
+      <span class="desc">Product image CDN, auto-format (WebP/AVIF), on-the-fly transforms — keeps the visual quality at the price-point promise.</span>
+    </div>
+    <div class="stack-item">
+      <span class="name">Resend + LINE Notify</span>
+      <span class="desc">Transactional email + LINE-channel notifications for orders, B2B quotes, stock alerts.</span>
+    </div>
+  </div>
+
+  <!-- ───────────────────────────────────────────── -->
+  <h2 id="integrations">4. LINE ecosystem integrations</h2>
+
+  <div class="grid-2">
+    <div class="card">
+      <h4 style="margin-top:0;">LINE Login (SSO)</h4>
+      <p style="font-size: 14px;">
+        Both web and mini-app authenticate via LINE OAuth.
+        Server verifies the ID token, looks up or creates a row in <code>users</code> keyed by <code>line_user_id</code>,
+        auto-fills profile fields. One identity, two channels.
+      </p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0;">LIFF / Mini-App</h4>
+      <p style="font-size: 14px;">
+        Mini-App is a LIFF page deployed at <code>liff.bbpillow.co.th</code>.
+        Uses <code>liff.getProfile()</code> for instant identity, <code>liff.sendMessages()</code> to share products to friends,
+        <code>liff.scanCode()</code> for store QR pickup orders.
+      </p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0;">LINE OA + Notify</h4>
+      <p style="font-size: 14px;">
+        Order updates, shipment tracking, and B2B quote PDFs sent via LINE Messaging API.
+        Promotional broadcast for new product drops; "buy in LINE" deep-link returns to the Mini-App.
+      </p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0;">Unified inventory</h4>
+      <p style="font-size: 14px;">
+        Web and Mini-App both call <code>GET /api/inventory/:variant</code>.
+        Reservation happens at order placement against <code>inventory.reserved</code> with a 15-minute TTL.
+        Stock can never be oversold across channels.
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top: 48px; padding: 20px 22px; background: var(--soil); color: var(--paper); border-radius: 16px;">
+    <div style="font-family: 'Sarabun', sans-serif; font-size: 12.5px; opacity: 0.7; letter-spacing: .06em; text-transform: uppercase;">Next steps</div>
+    <p style="margin: 8px 0 0; font-size: 15px; max-width: none;">
+      1. Validate wireframes with the founder · 2. Lock palette + type pair via the prototype's Tweaks panel ·
+      3. Spike LIFF + LINE Login on a throwaway branch · 4. Migrate the 8 sample products into the real schema · 5. Soft-launch to existing LINE OA followers.
+    </p>
+  </div>
+</div>
+</body>
+</html>
