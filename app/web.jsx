@@ -127,7 +127,7 @@ function Home({ lang, nav, addToCart, density, b2b }) {
             aspectRatio: '4/5', borderRadius: 18, overflow: 'hidden', position: 'relative',
             background: '#5C4533',
           }}>
-            <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=900&auto=format&fit=crop&q=70"
+            <img src="./assets/ที่นอนอนุบาล70_110/1.png"
               alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.78 }}/>
             <div style={{
               position: 'absolute', inset: 0,
@@ -245,11 +245,11 @@ function ValueProp({ icon, t, s }) {
 
 function CategoryTile({ cat, lang, idx, onClick }) {
   const imgs = {
-    pillow: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&auto=format&fit=crop&q=70',
-    mattress: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400&auto=format&fit=crop&q=70',
-    topper: 'https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=400&auto=format&fit=crop&q=70',
-    sheet: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&auto=format&fit=crop&q=70',
-    blanket: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&auto=format&fit=crop&q=70',
+    pillow: './assets/หมอนบอดี้/IMG_2991.JPG',
+    mattress: './assets/ที่นอนTopper3.5/IMG_2971.JPG',
+    topper: './assets/ที่นอนปิกนิก3.5/IMG_2979.JPG',
+    sheet: './assets/ชุดผ้าปู/IMG_2995.JPG',
+    blanket: './assets/ผ้านวม5/IMG_2985.JPG',
   };
   return (
     <button onClick={onClick} style={{
@@ -284,7 +284,7 @@ function HeroComposition() {
         boxShadow: '0 30px 60px -20px rgba(62,42,30,.25)',
         background: '#EDE8DC',
       }}>
-        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=900&auto=format&fit=crop&q=75"
+        <img src="./assets/ชุดผ้าปู/IMG_2995.JPG"
           alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       <div style={{
@@ -293,7 +293,7 @@ function HeroComposition() {
         boxShadow: '0 20px 40px -16px rgba(62,42,30,.2)',
         background: '#EDE8DC',
       }}>
-        <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600&auto=format&fit=crop&q=75"
+        <img src="./assets/ผ้านวม5/IMG_2985.JPG"
           alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       <div style={{
@@ -302,7 +302,7 @@ function HeroComposition() {
         boxShadow: '0 20px 40px -16px rgba(62,42,30,.2)',
         background: '#EDE8DC',
       }}>
-        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=600&auto=format&fit=crop&q=75"
+        <img src="./assets/ที่นอนTopper3.5/IMG_2971.JPG"
           alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       {/* price tag */}
