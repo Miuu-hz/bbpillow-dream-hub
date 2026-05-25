@@ -28,17 +28,13 @@ function Wholesale({ lang, nav }) {
             color: 'var(--soil)', margin: '14px 0 14px', letterSpacing: '-0.02em', lineHeight: 1.1,
             maxWidth: 760,
           }}>
-            {lang === 'th'
-              ? 'พาร์ทเนอร์ค้าส่งสำหรับโรงแรม รีสอร์ท และผู้ค้าปลีก'
-              : 'Wholesale partner for hotels, resorts & retailers.'}
+            {window.BB.t('whTitle', lang)}
           </h1>
           <p style={{
             fontFamily: '"Sarabun", sans-serif', fontSize: 16.5, color: 'rgba(62,42,30,.7)',
             margin: 0, maxWidth: 620, lineHeight: 1.55,
           }}>
-            {lang === 'th'
-              ? 'ราคาขายส่งดีกว่าตลาด 30–50% มีระบบสต็อกแยก ส่งทันใจทั่วประเทศ'
-              : '30–50% better than market wholesale, dedicated stock, nationwide delivery.'}
+            {window.BB.t('whSub', lang)}
           </p>
         </div>
       </section>
@@ -49,14 +45,10 @@ function Wholesale({ lang, nav }) {
           <SectionHd title={window.BB.t('bulkBenefits', lang)}/>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 16 }}>
             {[
-              { icon: <I.pkg/>, t: lang === 'th' ? 'ราคาขั้นบันได' : 'Tiered pricing',
-                s: lang === 'th' ? 'ยิ่งสั่งเยอะ ยิ่งคุ้ม เริ่มจาก 100 ชิ้น' : 'Better rates from 100+ units' },
-              { icon: <I.truck/>, t: lang === 'th' ? 'จัดส่งเฉพาะ' : 'Dedicated logistics',
-                s: lang === 'th' ? 'รถส่งของเราเอง ตรงเวลา' : 'In-house fleet, on schedule' },
-              { icon: <I.shield/>, t: lang === 'th' ? 'รับประกัน' : 'B2B warranty',
-                s: lang === 'th' ? 'เปลี่ยนทดแทนภายใน 7 วัน' : '7-day replacement guarantee' },
-              { icon: <I.gift/>, t: lang === 'th' ? 'พิมพ์โลโก้' : 'Custom branding',
-                s: lang === 'th' ? 'สกรีนโลโก้แบรนด์คุณได้' : 'Print your logo on items' },
+              { icon: <I.pkg/>, t: lang === 'th' ? 'ราคาขั้นบันได' : 'Tiered pricing', s: lang === 'th' ? 'ยิ่งสั่งเยอะ ยิ่งคุ้ม เริ่มจาก 100 ชิ้น' : 'Better rates from 100+ units' },
+              { icon: <I.truck/>, t: lang === 'th' ? 'จัดส่งเฉพาะ' : 'Dedicated logistics', s: lang === 'th' ? 'รถส่งของเราเอง ตรงเวลา' : 'In-house fleet, on schedule' },
+              { icon: <I.shield/>, t: lang === 'th' ? 'รับประกัน' : 'B2B warranty', s: lang === 'th' ? 'เปลี่ยนทดแทนภายใน 7 วัน' : '7-day replacement guarantee' },
+              { icon: <I.gift/>, t: lang === 'th' ? 'พิมพ์โลโก้' : 'Custom branding', s: lang === 'th' ? 'สกรีนโลโก้แบรนด์คุณได้' : 'Print your logo on items' },
             ].map((b, i) => (
               <div key={i} style={{ background: '#fff', borderRadius: 16, padding: 22, border: '1px solid rgba(62,42,30,.06)' }}>
                 <div style={{
@@ -74,8 +66,7 @@ function Wholesale({ lang, nav }) {
       {/* Pricing tiers */}
       <section style={{ padding: '20px 20px 40px' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto' }}>
-          <SectionHd title={lang === 'th' ? 'ราคาขายส่ง (ตัวอย่าง)' : 'Wholesale pricing (example)'}
-            sub={lang === 'th' ? 'หมอนหนุน Cloud — ราคาปลีก ฿189' : 'Cloud Pillow — retail ฿189'}/>
+          <SectionHd title={window.BB.t('whPricingTitle', lang)} sub={window.BB.t('whPricingSub', lang)}/>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
             {[
               { range: '50–99', price: 140, off: '26%' },
@@ -91,18 +82,18 @@ function Wholesale({ lang, nav }) {
               }}>
                 {t.popular && (
                   <div style={{ position: 'absolute', top: -10, right: 16 }}>
-                    <Badge kind="clay">{lang === 'th' ? 'นิยม' : 'Popular'}</Badge>
+                    <Badge kind="clay">{window.BB.t('whPopular', lang)}</Badge>
                   </div>
                 )}
                 <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13, opacity: t.popular ? 0.75 : 0.6, letterSpacing: '.04em' }}>
-                  {lang === 'th' ? 'จำนวน' : 'Quantity'}
+                  {window.BB.t('whQuantity', lang)}
                 </div>
                 <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 22, fontWeight: 500, marginTop: 2 }}>{t.range}</div>
                 <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 32, fontWeight: 600, color: t.popular ? '#FFC7A4' : 'var(--clay)', marginTop: 14, letterSpacing: '-0.01em' }}>
-                  ฿{t.price}<span style={{ fontSize: 13, fontWeight: 400, opacity: 0.8 }}>/{lang === 'th' ? 'ชิ้น' : 'unit'}</span>
+                  ฿{t.price}<span style={{ fontSize: 13, fontWeight: 400, opacity: 0.8 }}>/{window.BB.t('whPerUnit', lang)}</span>
                 </div>
                 <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, opacity: 0.75, marginTop: 4 }}>
-                  -{t.off} {lang === 'th' ? 'จากราคาปลีก' : 'from retail'}
+                  -{t.off} {window.BB.t('whFromRetail', lang)}
                 </div>
               </div>
             ))}
@@ -121,18 +112,18 @@ function Wholesale({ lang, nav }) {
                   {window.BB.t('requestQuote', lang)}
                 </h2>
                 <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14, color: 'rgba(62,42,30,.65)', margin: '0 0 22px' }}>
-                  {lang === 'th' ? 'เราจะติดต่อกลับภายใน 24 ชั่วโมง' : 'We will respond within 24 hours.'}
+                  {window.BB.t('whQuoteReply', lang)}
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                  <Field label={lang === 'th' ? 'ชื่อบริษัท / องค์กร' : 'Company / organization'} value={form.company} onChange={(v) => u('company', v)} required/>
+                  <Field label={window.BB.t('whCompany', lang)} value={form.company} onChange={(v) => u('company', v)} required/>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                    <Field label={lang === 'th' ? 'ผู้ติดต่อ' : 'Contact name'} value={form.contact} onChange={(v) => u('contact', v)} required/>
+                    <Field label={window.BB.t('whContact', lang)} value={form.contact} onChange={(v) => u('contact', v)} required/>
                     <Field label="Email" type="email" value={form.email} onChange={(v) => u('email', v)} required/>
                   </div>
-                  <Field label={lang === 'th' ? 'เบอร์โทร' : 'Phone'} value={form.phone} onChange={(v) => u('phone', v)} required/>
+                  <Field label={window.BB.t('phone', lang)} value={form.phone} onChange={(v) => u('phone', v)} required/>
                   <div>
                     <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, fontWeight: 500, color: 'rgba(62,42,30,.7)', marginBottom: 6 }}>
-                      {lang === 'th' ? 'ประเภทธุรกิจ' : 'Business type'} <span style={{ color: 'var(--clay)' }}>*</span>
+                      {window.BB.t('whBizType', lang)} <span style={{ color: 'var(--clay)' }}>*</span>
                     </div>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {[
@@ -153,7 +144,7 @@ function Wholesale({ lang, nav }) {
                   </div>
                   <div>
                     <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, fontWeight: 500, color: 'rgba(62,42,30,.7)', marginBottom: 6 }}>
-                      {lang === 'th' ? 'จำนวนโดยประมาณ' : 'Estimated quantity'} <span style={{ color: 'var(--clay)' }}>*</span>
+                      {window.BB.t('whEstQty', lang)} <span style={{ color: 'var(--clay)' }}>*</span>
                     </div>
                     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                       {['50-99','100-499','500-999','1000+'].map(q => (
@@ -167,8 +158,8 @@ function Wholesale({ lang, nav }) {
                       ))}
                     </div>
                   </div>
-                  <Field label={lang === 'th' ? 'รายละเอียดเพิ่มเติม' : 'Additional details'} value={form.message} onChange={(v) => u('message', v)} multiline rows={4}
-                    placeholder={lang === 'th' ? 'สินค้าที่สนใจ, ข้อกำหนดพิเศษ, ระยะเวลาส่งมอบ ...' : 'Products of interest, special requirements, timeline...'}/>
+                  <Field label={window.BB.t('whDetails', lang)} value={form.message} onChange={(v) => u('message', v)} multiline rows={4}
+                    placeholder={window.BB.t('whDetailsPh', lang)}/>
                   <div style={{ marginTop: 8 }}>
                     <Btn kind="primary" size="lg" onClick={() => setSent(true)}>
                       {window.BB.t('requestQuote', lang)} <I.chevR/>
@@ -183,12 +174,12 @@ function Wholesale({ lang, nav }) {
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16,
                 }}><I.check width={32} height={32} strokeWidth={2.5}/></div>
                 <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 22, fontWeight: 500, color: 'var(--soil)', margin: '0 0 8px' }}>
-                  {lang === 'th' ? 'ได้รับคำขอแล้ว ขอบคุณ!' : 'Request received. Thanks!'}
+                  {window.BB.t('whSent', lang)}
                 </h3>
                 <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14, color: 'rgba(62,42,30,.65)', margin: '0 0 20px' }}>
-                  {lang === 'th' ? 'ทีมขาย B2B จะติดต่อกลับภายใน 24 ชม.' : 'B2B team will reach out within 24 hours.'}
+                  {window.BB.t('whSentSub', lang)}
                 </p>
-                <Btn kind="outline" onClick={() => setSent(false)}>{lang === 'th' ? 'ส่งคำขอใหม่' : 'Send another'}</Btn>
+                <Btn kind="outline" onClick={() => setSent(false)}>{window.BB.t('whSendAnother', lang)}</Btn>
               </div>
             )}
           </div>
@@ -199,15 +190,15 @@ function Wholesale({ lang, nav }) {
                 {window.BB.t('downloadCatalog', lang)}
               </h3>
               <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13, opacity: 0.7, margin: '6px 0 18px' }}>
-                {lang === 'th' ? 'PDF · 24 หน้า · อัปเดตล่าสุด พ.ย. 2569' : 'PDF · 24 pages · Updated Nov 2026'}
+                {window.BB.t('whCatalogSub', lang)}
               </p>
               <Btn kind="outline" full style={{ color: 'var(--paper)', borderColor: 'rgba(247,245,240,.4)' }}>
-                <I.pkg/> {lang === 'th' ? 'ดาวน์โหลด PDF' : 'Download PDF'}
+                <I.pkg/> {window.BB.t('whDownloadPdf', lang)}
               </Btn>
             </div>
             <div style={{ background: '#fff', borderRadius: 18, padding: 22, marginTop: 14, border: '1px solid rgba(62,42,30,.06)' }}>
               <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12, color: 'rgba(62,42,30,.55)', letterSpacing: '.04em', textTransform: 'uppercase', marginBottom: 8 }}>
-                {lang === 'th' ? 'ติดต่อตรง' : 'Direct contact'}
+                {window.BB.t('whDirectContact', lang)}
               </div>
               <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 15, color: 'var(--soil)', fontWeight: 500 }}>คุณบี · Sales Lead</div>
               <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13.5, color: 'var(--sky)', marginTop: 4 }}>091-8033688 · b2b@bbpillow.co.th</div>
@@ -232,14 +223,12 @@ function Story({ lang, nav }) {
         <div style={{
           fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, fontWeight: 500,
           letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--clay)', marginBottom: 14,
-        }}>{lang === 'th' ? 'เรื่องราว' : 'Our story'}</div>
+        }}>{window.BB.t('storyEyebrow', lang)}</div>
         <h1 style={{
           fontFamily: '"Prompt", sans-serif', fontSize: 'clamp(32px, 5vw, 52px)', fontWeight: 500,
           color: 'var(--soil)', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1, textWrap: 'balance',
         }}>
-          {lang === 'th'
-            ? 'แบรนด์ 100 ปี ที่เริ่มจากเงิน 5,000 บาทสุดท้าย'
-            : 'A 100-year brand that began with a final 5,000 baht.'}
+          {window.BB.t('storyH1', lang)}
         </h1>
       </section>
 
@@ -249,20 +238,16 @@ function Story({ lang, nav }) {
           aspectRatio: '16/8', borderRadius: 24, overflow: 'hidden', background: '#5C4533', position: 'relative',
         }}>
           <img src="https://images.unsplash.com/photo-1540932239986-30128078f3c5?w=1600&auto=format&fit=crop&q=70"
-            alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+            alt="BBpillow — แบรนด์เครื่องนอนไทย ก่อตั้งจากตลาดนัดสู่แบรนด์ระดับประเทศ" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
         </div>
       </section>
 
       <section style={{ padding: '48px 20px', maxWidth: 720, margin: '0 auto' }}>
         <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 17, lineHeight: 1.7, color: 'rgba(62,42,30,.82)', margin: '0 0 24px' }}>
-          {lang === 'th'
-            ? 'BBpillow ก่อตั้งโดยคุณศศิพร ในวันที่เงินในมือเหลือเพียง 5,000 บาท เธอเลือกขายเครื่องนอน — ของจำเป็นที่ไม่หมดอายุ ไม่ต้องลด ไม่ต้องดัมพ์ราคา'
-            : 'BBpillow was founded by Khun Sasiporn on the day she had only 5,000 baht left. She chose bedding — essential goods that never expire, never need to be discounted, never need to be dumped.'}
+          {window.BB.t('storyP1', lang)}
         </p>
         <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 17, lineHeight: 1.7, color: 'rgba(62,42,30,.82)', margin: '0 0 24px' }}>
-          {lang === 'th'
-            ? 'จากแผงเล็ก ๆ ที่ตลาดนัด สู่ธุรกิจ 22 ล้านบาทต่อปี ด้วยปรัชญาญี่ปุ่นที่เรียกว่า "รินเน็น" — การสร้างแบรนด์ที่ยั่งยืน 100 ปี'
-            : 'From a tiny flea-market stall to a 22-million-baht business — guided by the Japanese philosophy of "Rinen": building a brand that lasts a hundred years.'}
+          {window.BB.t('storyP2', lang)}
         </p>
 
         {/* Pull quote */}
@@ -274,29 +259,25 @@ function Story({ lang, nav }) {
             fontFamily: '"Prompt", sans-serif', fontSize: 22, fontWeight: 400,
             color: 'var(--soil)', margin: 0, lineHeight: 1.4, letterSpacing: '-0.01em', textWrap: 'balance',
           }}>
-            "{lang === 'th'
-              ? 'ทุกบ้านควรได้นอนบนเครื่องนอนคุณภาพห้างฯ โดยไม่ต้องลังเลที่จะใช้ทุกวัน'
-              : 'Every home should sleep on department-store quality bedding — without hesitation, every single night.'}"
+            "{window.BB.t('storyQuote', lang)}"
           </p>
           <footer style={{ marginTop: 14, fontFamily: '"Sarabun", sans-serif', fontSize: 13, color: 'rgba(62,42,30,.6)' }}>
-            — {lang === 'th' ? 'คุณศศิพร, ผู้ก่อตั้ง' : 'Khun Sasiporn, founder'}
+            — {window.BB.t('storyQuoteBy', lang)}
           </footer>
         </blockquote>
 
         <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 22, fontWeight: 500, color: 'var(--soil)', margin: '32px 0 14px', letterSpacing: '-0.01em' }}>
-          {lang === 'th' ? 'รินเน็น — ปรัชญา 100 ปี' : 'Rinen — the 100-year philosophy'}
+          {window.BB.t('storyRinenH', lang)}
         </h3>
         <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 16, lineHeight: 1.7, color: 'rgba(62,42,30,.78)', margin: 0 }}>
-          {lang === 'th'
-            ? 'เราไม่ต้องการเป็นแบรนด์ที่ดังในวันเดียว เราต้องการเป็นแบรนด์ที่ลูกของลูกท่านยังเชื่อใจ เครื่องนอนทุกชิ้นออกแบบมาเพื่อใช้งานจริงในชีวิตประจำวัน — ทำความสะอาดง่าย ทนทาน ราคาที่ไม่ต้องคิดมาก'
-            : 'We are not chasing overnight fame. We are building a brand your grandchildren will still trust. Every piece is designed for real, daily use — easy to clean, durable, and priced so cost is never a worry.'}
+          {window.BB.t('storyRinenP', lang)}
         </p>
       </section>
 
       {/* Timeline */}
       <section style={{ padding: '40px 20px', maxWidth: 980, margin: '0 auto' }}>
         <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 22, fontWeight: 500, color: 'var(--soil)', margin: '0 0 24px', letterSpacing: '-0.01em' }}>
-          {lang === 'th' ? 'เส้นทาง' : 'Milestones'}
+          {window.BB.t('storyMilestonesH', lang)}
         </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {[

@@ -47,6 +47,91 @@ function App({ t, setTweak }) {
   useEffectA(() => { localStorage.setItem('bb-route', JSON.stringify(route)); }, [route]);
   useEffectA(() => { localStorage.setItem('bb-cart', JSON.stringify(cart)); }, [cart]);
 
+  // Dynamic <title> + meta description + Product JSON-LD
+  useEffectA(() => {
+    const brand = 'BBpillow';
+    const suffix = lang === 'th' ? 'นอนหลับมีคุณภาพ ในราคาตลาดนัด' : 'Quality sleep at flea-market prices';
+    const titles = {
+      home:      lang === 'th' ? `${brand} — ${suffix}` : `${brand} — ${suffix}`,
+      shop:      lang === 'th' ? `ช้อปเครื่องนอน — ${brand}` : `Shop Bedding — ${brand}`,
+      wholesale: lang === 'th' ? `ค้าส่งโรงแรม/รีสอร์ท — ${brand}` : `Wholesale Hotels & Resorts — ${brand}`,
+      story:     lang === 'th' ? `เรื่องราวของเรา — ${brand}` : `Our Story — ${brand}`,
+      cart:      lang === 'th' ? `ตะกร้าสินค้า — ${brand}` : `Cart — ${brand}`,
+      checkout:  lang === 'th' ? `ชำระเงิน — ${brand}` : `Checkout — ${brand}`,
+      dashboard: lang === 'th' ? `บัญชีของฉัน — ${brand}` : `My Account — ${brand}`,
+    };
+    const descs = {
+      home:      lang === 'th' ? 'BBpillow — เครื่องนอนคุณภาพห้างฯ ในราคาตลาดนัด หมอน ที่นอน ผ้าปู ผ้านวม ท็อปเปอร์ ส่งฟรี 500+ รับประกัน 1 ปี' : 'BBpillow — Department-store quality bedding at flea-market prices. Pillows, mattresses, sheets, blankets. Free shipping over ฿500. 1-year warranty.',
+      shop:      lang === 'th' ? 'เลือกซื้อหมอน ที่นอน ผ้าปู ผ้านวม ท็อปเปอร์ คุณภาพห้างฯ ราคาคุ้มค่า ส่งฟรี 500+' : 'Shop premium pillows, mattresses, sheets and toppers at affordable prices. Free shipping over ฿500.',
+      wholesale: lang === 'th' ? 'ราคาขายส่งดีกว่าตลาด 30–50% สำหรับโรงแรม รีสอร์ท หอพัก และผู้ค้าปลีก' : 'Wholesale pricing 30–50% below market for hotels, resorts, dorms and retailers.',
+      story:     lang === 'th' ? 'จากเงิน 5,000 บาทสุดท้ายสู่แบรนด์ที่หลายแสนครอบครัวไว้วางใจ' : 'From a final 5,000 baht to a brand trusted by hundreds of thousands of families.',
+      cart:      lang === 'th' ? 'ตะกร้าสินค้าของคุณที่ BBpillow' : 'Your shopping cart at BBpillow.',
+      checkout:  lang === 'th' ? 'กรอกที่อยู่จัดส่งและเลือกวิธีชำระเงินเพื่อสั่งซื้อสินค้า' : 'Enter your delivery address and choose a payment method to complete your order.',
+      dashboard: lang === 'th' ? 'ดูคำสั่งซื้อ แต้มสะสม และจัดการโปรไฟล์ของคุณ' : 'View your orders, loyalty points and manage your profile.',
+    };
+
+    // Update meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) { metaDesc = document.createElement('meta'); metaDesc.name = 'description'; document.head.appendChild(metaDesc); }
+
+    if (route.screen === 'pdp') {
+      const p = window.BB.products.find(x => x.id === route.id);
+      if (p) {
+        const name = lang === 'th' ? p.th : p.en;
+        document.title = `${name} — ${brand}`;
+        metaDesc.content = lang === 'th' ? `${p.desc_th} ราคา ฿${p.price.toLocaleString('en-US')} ที่ BBpillow` : `${p.desc_en} Price ฿${p.price.toLocaleString('en-US')} at BBpillow`;
+
+        // Product JSON-LD
+        const existing = document.getElementById('bb-jsonld-product');
+        if (existing) existing.remove();
+        const s = document.createElement('script');
+        s.id = 'bb-jsonld-product';
+        s.type = 'application/ld+json';
+        s.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Product',
+          name: p.th,
+          alternateName: p.en,
+          description: lang === 'th' ? p.desc_th : p.desc_en,
+          image: `https://www.bbpillow.com/${p.img.replace('./', '')}`,
+          sku: p.sku,
+          brand: { '@type': 'Brand', name: 'BBpillow' },
+          offers: {
+            '@type': 'Offer',
+            url: `https://www.bbpillow.com/#pdp/${p.id}`,
+            price: String(p.price),
+            priceCurrency: 'THB',
+            priceValidUntil: '2026-12-31',
+            availability: 'https://schema.org/InStock',
+            seller: { '@type': 'Organization', name: 'BBpillow' },
+            shippingDetails: {
+              '@type': 'OfferShippingDetails',
+              shippingRate: { '@type': 'MonetaryAmount', value: '0', currency: 'THB' },
+              deliveryTime: {
+                '@type': 'ShippingDeliveryTime',
+                handlingTime: { '@type': 'QuantitativeValue', minValue: '1', maxValue: '2', unitText: 'Day' },
+                transitTime: { '@type': 'QuantitativeValue', minValue: '2', maxValue: '4', unitText: 'Day' },
+              },
+            },
+          },
+          aggregateRating: {
+            '@type': 'AggregateRating',
+            ratingValue: String(p.rating),
+            reviewCount: String(p.reviews),
+            bestRating: '5',
+            worstRating: '1',
+          },
+        });
+        document.head.appendChild(s);
+      }
+    } else {
+      document.title = titles[route.screen] || titles.home;
+      metaDesc.content = descs[route.screen] || descs.home;
+      const existing = document.getElementById('bb-jsonld-product');
+      if (existing) existing.remove();
+    }
+  }, [route, lang]);
+
   // CSS vars on root
   useEffectA(() => {
     const r = document.documentElement;
@@ -249,10 +334,10 @@ function WebHeader({ lang, nav, route, cartCount, b2b }) {
           </nav>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             {b2b && <Badge kind="clay">B2B mode</Badge>}
-            <button onClick={() => nav('dashboard')} style={navBtn} title={window.BB.t('account', lang)}>
+            <button onClick={() => nav('dashboard')} style={navBtn} title={window.BB.t('account', lang)} aria-label={window.BB.t('account', lang)}>
               <I.user/>
             </button>
-            <button onClick={() => nav('cart')} style={{ ...navBtn, position: 'relative' }} title={window.BB.t('cart', lang)}>
+            <button onClick={() => nav('cart')} style={{ ...navBtn, position: 'relative' }} title={window.BB.t('cart', lang)} aria-label={window.BB.t('cart', lang)}>
               <I.cart/>
               {cartCount > 0 && (
                 <span style={{
@@ -264,7 +349,7 @@ function WebHeader({ lang, nav, route, cartCount, b2b }) {
                 }}>{cartCount}</span>
               )}
             </button>
-            <button className="bb-mobile-menu" onClick={() => setOpen(true)} style={{ ...navBtn, display: 'none' }}>
+            <button className="bb-mobile-menu" aria-label={window.BB.t('openMenu', lang)} onClick={() => setOpen(true)} style={{ ...navBtn, display: 'none' }}>
               <I.menu/>
             </button>
           </div>
@@ -281,7 +366,7 @@ function WebHeader({ lang, nav, route, cartCount, b2b }) {
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <BBLogo size={20}/>
-              <button onClick={() => setOpen(false)} style={{ ...navBtn, background: 'rgba(62,42,30,.06)' }}><I.close/></button>
+              <button aria-label={window.BB.t('closeMenu', lang)} onClick={() => setOpen(false)} style={{ ...navBtn, background: 'rgba(62,42,30,.06)' }}><I.close/></button>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
               {links.map(l => (
@@ -505,7 +590,7 @@ function MiniCardLocal({ p, lang, onClick, onAdd }) {
       border: '1px solid rgba(62,42,30,.06)',
     }}>
       <div style={{ aspectRatio: '1', overflow: 'hidden', background: '#EDE8DC', position: 'relative' }}>
-        <img src={p.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+        <img src={p.img} alt={lang === 'th' ? p.th : p.en} style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
         <button onClick={(e) => { e.stopPropagation(); onAdd(p); }} style={{
           position: 'absolute', bottom: 6, right: 6,
           width: 30, height: 30, borderRadius: '50%', border: 0, cursor: 'pointer',

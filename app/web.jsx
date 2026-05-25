@@ -57,11 +57,11 @@ function Home({ lang, nav, addToCart, density, b2b }) {
               </Btn>
             </div>
             <div style={{ display: 'flex', gap: 0, marginTop: 36, flexWrap: 'wrap', alignItems: 'center' }}>
-              <Stat n="22M฿" l={lang === 'th' ? 'ยอดขายต่อปี' : 'Annual revenue'}/>
+              <Stat n="22M฿" l={window.BB.t('statRevenue', lang)}/>
               <div style={{ width: 1, height: 36, background: 'rgba(62,42,30,.13)', margin: '0 24px' }}/>
-              <Stat n="100K+" l={lang === 'th' ? 'ลูกค้าทั่วประเทศ' : 'Customers nationwide'}/>
+              <Stat n="100K+" l={window.BB.t('statCustomers', lang)}/>
               <div style={{ width: 1, height: 36, background: 'rgba(62,42,30,.13)', margin: '0 24px' }}/>
-              <Stat n="4.8★" l={lang === 'th' ? 'จากรีวิวจริง' : 'Verified reviews'}/>
+              <Stat n="4.8★" l={window.BB.t('statReviews', lang)}/>
             </div>
           </div>
           <div style={{ position: 'relative', minHeight: 360 }}>
@@ -76,10 +76,10 @@ function Home({ lang, nav, addToCart, density, b2b }) {
       <section style={{ padding: '48px 20px', borderBottom: '1px solid rgba(62,42,30,.06)' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto', display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
-          <ValueProp icon={<I.truck/>} t={lang === 'th' ? 'ส่งฟรี 500.-' : 'Free shipping ฿500+'} s={lang === 'th' ? 'ทั่วประเทศ 2–4 วัน' : 'Nationwide 2–4 days'}/>
-          <ValueProp icon={<I.shield/>} t={lang === 'th' ? 'รับประกัน 1 ปี' : '1-year warranty'} s={lang === 'th' ? 'ทุกชิ้นมีใบรับประกัน' : 'Every item covered'}/>
-          <ValueProp icon={<I.refresh/>} t={lang === 'th' ? 'คืนใน 7 วัน' : '7-day returns'} s={lang === 'th' ? 'ไม่พอใจคืนเงิน' : 'Refund if not satisfied'}/>
-          <ValueProp icon={<I.leaf/>} t={lang === 'th' ? 'แบรนด์ 100 ปี' : '100-year brand'} s={lang === 'th' ? 'รินเน็น – ผลิตเพื่อใช้นาน' : 'Rinen — built to last'}/>
+          <ValueProp icon={<I.truck/>} t={window.BB.t('vpShipTitle', lang)} s={window.BB.t('vpShipSub', lang)}/>
+          <ValueProp icon={<I.shield/>} t={window.BB.t('vpWarrantyTitle', lang)} s={window.BB.t('vpWarrantySub', lang)}/>
+          <ValueProp icon={<I.refresh/>} t={window.BB.t('vpReturnTitle', lang)} s={window.BB.t('vpReturnSub', lang)}/>
+          <ValueProp icon={<I.leaf/>} t={window.BB.t('vpBrandTitle', lang)} s={window.BB.t('vpBrandSub', lang)}/>
         </div>
       </section>
 
@@ -87,7 +87,7 @@ function Home({ lang, nav, addToCart, density, b2b }) {
       <section style={{ padding: density === 'compact' ? '40px 20px' : '64px 20px' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto' }}>
           <SectionHd
-            eyebrow={lang === 'th' ? 'เลือกซื้อตามหมวด' : 'Shop by category'}
+            eyebrow={window.BB.t('shopByCategory', lang)}
             title={window.BB.t('categories', lang)}
           />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 14 }}>
@@ -102,15 +102,15 @@ function Home({ lang, nav, addToCart, density, b2b }) {
       <section style={{ padding: density === 'compact' ? '24px 20px 40px' : '40px 20px 64px' }}>
         <div style={{ maxWidth: 1180, margin: '0 auto' }}>
           <SectionHd
-            eyebrow={lang === 'th' ? 'ลูกค้าเลือก' : 'Customer favorites'}
+            eyebrow={window.BB.t('customerFavorites', lang)}
             title={window.BB.t('bestsellers', lang)}
-            sub={lang === 'th' ? 'ยอดขายอันดับหนึ่งของเดือนนี้' : 'Top sellers this month'}
+            sub={window.BB.t('topSellersMonth', lang)}
             action={
               <button onClick={() => nav('shop')} style={{
                 appearance: 'none', border: 0, background: 'transparent', cursor: 'pointer',
                 fontFamily: '"Prompt", sans-serif', fontSize: 14, color: 'var(--sky)', fontWeight: 500,
                 display: 'inline-flex', alignItems: 'center', gap: 4,
-              }}>{lang === 'th' ? 'ดูทั้งหมด' : 'View all'} <I.chevR/></button>
+              }}>{window.BB.t('viewAll', lang)} <I.chevR/></button>
             }
           />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 18 }}>
@@ -131,17 +131,17 @@ function Home({ lang, nav, addToCart, density, b2b }) {
             background: '#5C4533',
           }}>
             <img src="./assets/ที่นอนอนุบาล70_110/1.png"
-              alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.78 }}/>
+              alt="คุณศศิพร ผู้ก่อตั้ง BBpillow" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 0.78 }}/>
             <div style={{
               position: 'absolute', inset: 0,
               background: 'linear-gradient(180deg, transparent 30%, rgba(62,42,30,.5) 100%)',
             }}/>
             <div style={{ position: 'absolute', bottom: 18, left: 18, right: 18 }}>
               <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12, opacity: 0.7, letterSpacing: '.06em', textTransform: 'uppercase' }}>
-                {lang === 'th' ? 'ผู้ก่อตั้ง' : 'Founder'}
+                {window.BB.t('founderLabel', lang)}
               </div>
               <div style={{ fontFamily: '"Prompt", sans-serif', fontSize: 20, fontWeight: 500, marginTop: 4 }}>
-                {lang === 'th' ? 'คุณศศิพร' : 'Khun Sasiporn'}
+                {window.BB.t('founderName', lang)}
               </div>
             </div>
           </div>
@@ -149,27 +149,23 @@ function Home({ lang, nav, addToCart, density, b2b }) {
             <div style={{
               fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, fontWeight: 500,
               letterSpacing: '.08em', textTransform: 'uppercase', color: '#D9A07C', marginBottom: 14,
-            }}>{lang === 'th' ? 'รินเน็น – ปรัชญา 100 ปี' : 'Rinen — the 100-year philosophy'}</div>
+            }}>{window.BB.t('rinenLabel', lang)}</div>
             <h2 style={{
               fontFamily: '"Prompt", sans-serif', fontSize: 'clamp(26px, 4vw, 38px)', fontWeight: 400,
               margin: 0, lineHeight: 1.15, letterSpacing: '-0.01em',
             }}>
-              {lang === 'th'
-                ? 'จากเงิน 5,000 บาทสุดท้าย สู่แบรนด์ที่หลายแสนครอบครัวไว้วางใจ'
-                : 'From a final 5,000 baht to a brand trusted by hundreds of thousands.'}
+              {window.BB.t('storyTitle', lang)}
             </h2>
             <p style={{
               fontFamily: '"Sarabun", sans-serif', fontSize: 15.5, lineHeight: 1.65, opacity: 0.82,
               marginTop: 18, maxWidth: 540,
             }}>
-              {lang === 'th'
-                ? 'เราเชื่อว่าทุกบ้านควรเข้าถึงเครื่องนอนคุณภาพห้างฯ ได้โดยไม่ต้องลังเล — ไม่ต้องเสียดายที่จะใช้ทุกวัน นี่คือเหตุผลที่ BBpillow มีอยู่'
-                : 'We believe every home deserves department-store quality bedding — without hesitation, without guilt about daily use. That is why BBpillow exists.'}
+              {window.BB.t('storyBody', lang)}
             </p>
             <div style={{ marginTop: 24 }}>
               <Btn kind="outline" size="md" style={{ color: 'var(--paper)', borderColor: 'rgba(247,245,240,.5)' }}
                 onClick={() => nav('story')}>
-                {lang === 'th' ? 'อ่านเรื่องราว' : 'Read our story'} <I.chevR/>
+                {window.BB.t('readStory', lang)} <I.chevR/>
               </Btn>
             </div>
           </div>
@@ -186,9 +182,9 @@ function Home({ lang, nav, addToCart, density, b2b }) {
               <h3 style={{
                 fontFamily: '"Prompt", sans-serif', fontSize: 24, fontWeight: 500,
                 color: 'var(--soil)', margin: '10px 0 4px',
-              }}>{lang === 'th' ? 'ซื้อจำนวนมาก ราคาดีกว่า' : 'Buy in bulk, better pricing'}</h3>
+              }}>{window.BB.t('b2bTitle', lang)}</h3>
               <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14.5, color: 'rgba(62,42,30,.7)', margin: 0 }}>
-                {lang === 'th' ? 'สำหรับโรงแรม รีสอร์ท หอพัก และผู้ค้าปลีก' : 'For hotels, resorts, dorms & retailers'}
+                {window.BB.t('b2bSub', lang)}
               </p>
             </div>
             <Btn kind="primary" onClick={() => nav('wholesale')}>{window.BB.t('requestQuote', lang)} <I.chevR/></Btn>
@@ -209,11 +205,9 @@ function Home({ lang, nav, addToCart, density, b2b }) {
             color: 'var(--soil)', margin: '14px 0 8px', letterSpacing: '-0.01em',
           }}>{window.BB.t('newsletter', lang)}</h2>
           <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14.5, color: 'rgba(62,42,30,.65)', margin: '0 0 22px' }}>
-            {lang === 'th'
-              ? 'แอดเป็นเพื่อน รับส่วนลด 100.- + แต้มสะสม + ดีลพิเศษเฉพาะใน LINE'
-              : 'Add friend to get ฿100 off + loyalty points + LINE-only deals'}
+            {window.BB.t('linePromo', lang)}
           </p>
-          <Btn kind="line" size="lg"><I.line/> {lang === 'th' ? 'เพิ่มเพื่อน LINE' : 'Add LINE friend'}</Btn>
+          <Btn kind="line" size="lg"><I.line/> {window.BB.t('lineAddFriend', lang)}</Btn>
         </div>
       </section>
     </div>
@@ -257,11 +251,11 @@ function ValueProp({ icon, t, s }) {
 
 function CategoryTile({ cat, lang, idx, onClick }) {
   const imgs = {
-    pillow: './assets/หมอนบอดี้/IMG_2991.JPG',
-    mattress: './assets/ที่นอนTopper3.5/IMG_2971.JPG',
-    topper: './assets/ที่นอนปิกนิก3.5/IMG_2979.JPG',
-    sheet: './assets/ชุดผ้าปู/IMG_2995.JPG',
-    blanket: './assets/ผ้านวม5/IMG_2985.JPG',
+    pillow: { src: './assets/หมอนบอดี้/IMG_2991.JPG', alt: { th: 'หมอนบอดี้', en: 'Body Pillow' } },
+    mattress: { src: './assets/ที่นอนTopper3.5/IMG_2971.JPG', alt: { th: 'ที่นอน', en: 'Mattress' } },
+    topper: { src: './assets/ที่นอนปิกนิก3.5/IMG_2979.JPG', alt: { th: 'ที่นอนปิกนิก', en: 'Picnic Mattress' } },
+    sheet: { src: './assets/ชุดผ้าปู/IMG_2995.JPG', alt: { th: 'ชุดผ้าปูที่นอน', en: 'Sheet Set' } },
+    blanket: { src: './assets/ผ้านวม5/IMG_2985.JPG', alt: { th: 'ผ้านวม', en: 'Comforter Blanket' } },
   };
   return (
     <button onClick={onClick}
@@ -272,7 +266,7 @@ function CategoryTile({ cat, lang, idx, onClick }) {
         aspectRatio: '3/4', borderRadius: 18, overflow: 'hidden',
         position: 'relative', background: '#EDE8DC',
       }}>
-        <img src={imgs[cat.id]} alt="" style={{
+        <img src={imgs[cat.id]} alt={lang === 'th' ? cat.th : cat.en} loading="lazy" style={{
           width: '100%', height: '100%', objectFit: 'cover',
           transition: 'transform .45s cubic-bezier(.25,.46,.45,.94)',
         }}/>
@@ -301,7 +295,7 @@ function HeroComposition() {
         background: '#EDE8DC',
       }}>
         <img src="./assets/ชุดผ้าปู/IMG_2995.JPG"
-          alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+          alt="ชุดผ้าปูที่นอน Cotton-Touch BBpillow" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       <div style={{
         position: 'absolute', top: '34%', right: '2%', width: '46%', aspectRatio: '1',
@@ -310,7 +304,7 @@ function HeroComposition() {
         background: '#EDE8DC',
       }}>
         <img src="./assets/ผ้านวม5/IMG_2985.JPG"
-          alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+          alt="ผ้านวม 5 ฟุต นุ่มหนา BBpillow" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       <div style={{
         position: 'absolute', bottom: '4%', left: '2%', width: '40%', aspectRatio: '5/4',
@@ -319,7 +313,7 @@ function HeroComposition() {
         background: '#EDE8DC',
       }}>
         <img src="./assets/ที่นอนTopper3.5/IMG_2971.JPG"
-          alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+          alt="ที่นอนท็อปเปอร์ Soft Lay 3.5 ฟุต BBpillow" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       {/* price tag */}
       <div style={{
@@ -365,9 +359,9 @@ function Shop({ lang, nav, addToCart, density, initial }) {
         <h1 style={{
           fontFamily: '"Prompt", sans-serif', fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 500,
           color: 'var(--soil)', margin: 0, letterSpacing: '-0.01em',
-        }}>{lang === 'th' ? 'สินค้าทั้งหมด' : 'All products'}</h1>
+        }}>{window.BB.t('allProducts', lang)}</h1>
         <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14, color: 'rgba(62,42,30,.6)', margin: '6px 0 0' }}>
-          {filtered.length} {lang === 'th' ? 'รายการ' : 'items'}
+          {filtered.length} {window.BB.t('itemsUnit', lang)}
         </p>
       </div>
 
@@ -437,7 +431,7 @@ function Shop({ lang, nav, addToCart, density, initial }) {
               <div style={{ gridColumn: '1/-1', textAlign: 'center', padding: 60 }}>
                 <EmptyArt/>
                 <p style={{ fontFamily: '"Sarabun", sans-serif', color: 'rgba(62,42,30,.55)', marginTop: 12 }}>
-                  {lang === 'th' ? 'ไม่พบสินค้าตามตัวกรอง' : 'No products match your filters'}
+                  {window.BB.t('noProductsFilter', lang)}
                 </p>
               </div>
             )}
@@ -494,7 +488,7 @@ function PDP({ lang, nav, addToCart, route }) {
           <div style={{
             aspectRatio: '1', borderRadius: 20, overflow: 'hidden', background: '#EDE8DC', marginBottom: 12,
           }}>
-            <img src={gallery[activeImg]} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity .2s' }}/>
+            <img src={gallery[activeImg]} alt={name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity .2s' }}/>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10 }}>
             {gallery.slice(0, 4).map((img, i) => (
@@ -505,7 +499,7 @@ function PDP({ lang, nav, addToCart, route }) {
                 opacity: i === activeImg ? 1 : 0.65,
                 transition: 'opacity .15s, border-color .15s',
               }}>
-                <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+                <img src={img} alt={`${name} รูปที่ ${i+1}`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
               </div>
             ))}
           </div>
@@ -514,7 +508,7 @@ function PDP({ lang, nav, addToCart, route }) {
         <div>
           <div style={{ display: 'flex', gap: 6, marginBottom: 12 }}>
             <Badge kind="clay">-{off}%</Badge>
-            {p.badges && p.badges.includes('best-seller') && <Badge kind="sage">{lang === 'th' ? 'ขายดี' : 'Best seller'}</Badge>}
+            {p.badges && p.badges.includes('best-seller') && <Badge kind="sage">{window.BB.t('bestSeller', lang)}</Badge>}
           </div>
           <h1 style={{
             fontFamily: '"Prompt", sans-serif', fontSize: 'clamp(24px, 3.5vw, 32px)', fontWeight: 500,
@@ -523,7 +517,7 @@ function PDP({ lang, nav, addToCart, route }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <Stars rating={p.rating}/>
             <span style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13.5, color: 'rgba(62,42,30,.6)' }}>
-              {p.rating} · {p.reviews} {lang === 'th' ? 'รีวิว' : 'reviews'} · {lang === 'th' ? 'ขายแล้ว' : 'sold'} {p.sold.toLocaleString()}
+              {p.rating} · {p.reviews} {window.BB.t('reviewsUnit', lang)} · {window.BB.t('soldLabel', lang)} {p.sold.toLocaleString()}
             </span>
           </div>
 
@@ -543,17 +537,17 @@ function PDP({ lang, nav, addToCart, route }) {
           }}>{lang === 'th' ? p.desc_th : p.desc_en}</p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
-            <Specs label={lang === 'th' ? 'วัสดุ' : 'Material'} value={
+            <Specs label={window.BB.t('materialLabel', lang)} value={
               window.BB.materials.find(m => m.id === p.material) ? (lang === 'th' ? window.BB.materials.find(m => m.id === p.material).th : window.BB.materials.find(m => m.id === p.material).en) : p.material
             }/>
             <Specs label="SKU" value={p.sku}/>
-            <Specs label={lang === 'th' ? 'สถานะ' : 'Stock'} value={window.BB.t('inStock', lang)} accent/>
-            <Specs label={lang === 'th' ? 'จัดส่ง' : 'Shipping'} value={lang === 'th' ? '2–4 วัน' : '2–4 days'}/>
+            <Specs label={window.BB.t('stockLabel', lang)} value={window.BB.t('inStock', lang)} accent/>
+            <Specs label={window.BB.t('shippingLabel', lang)} value={window.BB.t('shippingDays', lang)}/>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
             <span style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13.5, color: 'rgba(62,42,30,.7)' }}>
-              {lang === 'th' ? 'จำนวน' : 'Quantity'}
+              {window.BB.t('quantityLabel', lang)}
             </span>
             <QtyStep value={qty} onChange={setQty}/>
           </div>
@@ -579,7 +573,7 @@ function PDP({ lang, nav, addToCart, route }) {
 
       {/* Reviews */}
       <section style={{ marginTop: 64 }}>
-        <SectionHd title={lang === 'th' ? 'รีวิวจากลูกค้า' : 'Customer reviews'}
+        <SectionHd title={window.BB.t('customerReviews', lang)}
           eyebrow={`${p.rating}★ · ${p.reviews} reviews`}/>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 14 }}>
           {window.BB.reviews.map(r => (
@@ -629,7 +623,7 @@ function Cart({ lang, nav, cart, updateQty, removeFromCart }) {
           {window.BB.t('empty', lang)}
         </h1>
         <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14, color: 'rgba(62,42,30,.6)', margin: '0 0 24px' }}>
-          {lang === 'th' ? 'เพิ่มสินค้าที่คุณชอบลงตะกร้าได้เลย' : 'Add some items you love to get started'}
+          {window.BB.t('cartEmptySub', lang)}
         </p>
         <Btn kind="primary" size="lg" onClick={() => nav('shop')}>{window.BB.t('continue', lang)}</Btn>
       </div>
@@ -652,7 +646,7 @@ function Cart({ lang, nav, cart, updateQty, removeFromCart }) {
               border: '1px solid rgba(62,42,30,.06)',
             }}>
               <div style={{ aspectRatio: '1', borderRadius: 10, overflow: 'hidden', background: '#EDE8DC' }}>
-                <img src={p.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+                <img src={p.img} alt={lang === 'th' ? p.th : p.en} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minWidth: 0 }}>
                 <div>
@@ -663,7 +657,7 @@ function Cart({ lang, nav, cart, updateQty, removeFromCart }) {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 8 }}>
                   <QtyStep value={qty} onChange={(v) => updateQty(p.id, v)}/>
-                  <button onClick={() => removeFromCart(p.id)} style={{
+                  <button aria-label={window.BB.t('removeItem', lang)} onClick={() => removeFromCart(p.id)} style={{
                     appearance: 'none', border: 0, background: 'transparent', cursor: 'pointer',
                     color: 'rgba(62,42,30,.5)', display: 'inline-flex', alignItems: 'center', gap: 4,
                     fontFamily: '"Sarabun", sans-serif', fontSize: 12.5,
@@ -688,7 +682,7 @@ function Cart({ lang, nav, cart, updateQty, removeFromCart }) {
             border: '1px solid rgba(62,42,30,.06)', position: 'sticky', top: 90,
           }}>
             <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 16, fontWeight: 600, color: 'var(--soil)', margin: '0 0 14px' }}>
-              {lang === 'th' ? 'สรุปคำสั่งซื้อ' : 'Order summary'}
+              {window.BB.t('orderSummary', lang)}
             </h3>
             <SumRow l={window.BB.t('subtotal', lang)} v={window.BB.fmtBaht(subtotal)}/>
             <SumRow l={window.BB.t('shipping', lang)} v={shipping === 0 ? window.BB.t('free', lang) : window.BB.fmtBaht(shipping)} accent={shipping === 0}/>
@@ -742,9 +736,9 @@ function Checkout({ lang, nav, cart, clearCart }) {
       {/* Stepper */}
       <div style={{ display: 'flex', gap: 8, marginBottom: 32 }}>
         {[
-          { n: 1, t: lang === 'th' ? 'ข้อมูลจัดส่ง' : 'Shipping' },
-          { n: 2, t: lang === 'th' ? 'ชำระเงิน' : 'Payment' },
-          { n: 3, t: lang === 'th' ? 'ยืนยัน' : 'Confirm' },
+          { n: 1, t: window.BB.t('stepShipping', lang) },
+          { n: 2, t: window.BB.t('stepPayment', lang) },
+          { n: 3, t: window.BB.t('stepConfirm', lang) },
         ].map((s, i) => (
           <div key={s.n} style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1 }}>
             <div style={{
@@ -769,7 +763,7 @@ function Checkout({ lang, nav, cart, clearCart }) {
           {step === 1 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 17, fontWeight: 500, color: 'var(--soil)', margin: '0 0 4px' }}>
-                {lang === 'th' ? 'ที่อยู่จัดส่ง' : 'Delivery address'}
+                {window.BB.t('deliveryAddress', lang)}
               </h3>
               <div style={{
                 display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px',
@@ -777,25 +771,25 @@ function Checkout({ lang, nav, cart, clearCart }) {
               }}>
                 <I.line style={{ color: '#06C755' }}/>
                 <span style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13, color: 'var(--soil)' }}>
-                  {lang === 'th' ? 'ล็อกอินด้วย LINE เพื่อกรอกอัตโนมัติ' : 'Sign in with LINE to autofill'}
+                  {window.BB.t('lineAutofill', lang)}
                 </span>
               </div>
-              <Field label={lang === 'th' ? 'ชื่อ-นามสกุล' : 'Full name'} value={form.name} onChange={(v) => update('name', v)} required/>
-              <Field label={lang === 'th' ? 'เบอร์โทร' : 'Phone'} value={form.phone} onChange={(v) => update('phone', v)} placeholder="08x-xxx-xxxx" required/>
-              <Field label={lang === 'th' ? 'ที่อยู่' : 'Address'} value={form.address} onChange={(v) => update('address', v)} multiline rows={3} required/>
+              <Field label={window.BB.t('fullName', lang)} value={form.name} onChange={(v) => update('name', v)} required/>
+              <Field label={window.BB.t('phone', lang)} value={form.phone} onChange={(v) => update('phone', v)} placeholder="08x-xxx-xxxx" required/>
+              <Field label={window.BB.t('address', lang)} value={form.address} onChange={(v) => update('address', v)} multiline rows={3} required/>
               <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 12 }}>
-                <Field label={lang === 'th' ? 'จังหวัด/เขต' : 'City / district'} value={form.city} onChange={(v) => update('city', v)} required/>
-                <Field label={lang === 'th' ? 'รหัสไปรษณีย์' : 'ZIP'} value={form.zip} onChange={(v) => update('zip', v)} required/>
+                <Field label={window.BB.t('cityDistrict', lang)} value={form.city} onChange={(v) => update('city', v)} required/>
+                <Field label={window.BB.t('zipCode', lang)} value={form.zip} onChange={(v) => update('zip', v)} required/>
               </div>
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
-                <Btn kind="primary" onClick={() => setStep(2)}>{lang === 'th' ? 'ต่อไป' : 'Continue'} <I.chevR/></Btn>
+                <Btn kind="primary" onClick={() => setStep(2)}>{window.BB.t('next', lang)} <I.chevR/></Btn>
               </div>
             </div>
           )}
           {step === 2 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 17, fontWeight: 500, color: 'var(--soil)', margin: '0 0 4px' }}>
-                {lang === 'th' ? 'วิธีชำระเงิน' : 'Payment method'}
+                {window.BB.t('paymentMethod', lang)}
               </h3>
               {[
                 { id: 'cod', th: 'เก็บเงินปลายทาง (COD)', en: 'Cash on delivery' },
@@ -816,29 +810,29 @@ function Checkout({ lang, nav, cart, clearCart }) {
                 </label>
               ))}
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Btn kind="ghost" onClick={() => setStep(1)}><I.chevL/> {lang === 'th' ? 'ย้อนกลับ' : 'Back'}</Btn>
-                <Btn kind="primary" onClick={() => setStep(3)}>{lang === 'th' ? 'ตรวจสอบ' : 'Review'} <I.chevR/></Btn>
+                <Btn kind="ghost" onClick={() => setStep(1)}><I.chevL/> {window.BB.t('back', lang)}</Btn>
+                <Btn kind="primary" onClick={() => setStep(3)}>{window.BB.t('review', lang)} <I.chevR/></Btn>
               </div>
             </div>
           )}
           {step === 3 && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 17, fontWeight: 500, color: 'var(--soil)', margin: 0 }}>
-                {lang === 'th' ? 'ยืนยันคำสั่งซื้อ' : 'Confirm your order'}
+                {window.BB.t('confirmOrder', lang)}
               </h3>
               <div style={{ padding: '14px 16px', background: 'rgba(58,110,165,.05)', borderRadius: 12 }}>
                 <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12, color: 'rgba(62,42,30,.55)', letterSpacing: '.04em', textTransform: 'uppercase', marginBottom: 6 }}>
-                  {lang === 'th' ? 'จัดส่งไปยัง' : 'Ship to'}
+                  {window.BB.t('shipTo', lang)}
                 </div>
                 <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14, color: 'var(--soil)', lineHeight: 1.5 }}>
-                  <strong>{form.name || (lang === 'th' ? '(ยังไม่ได้กรอก)' : '(not filled)')}</strong><br/>
+                  <strong>{form.name || window.BB.t('notFilled', lang)}</strong><br/>
                   {form.address} {form.city} {form.zip}<br/>
                   {form.phone}
                 </div>
               </div>
               <div>
                 <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12, color: 'rgba(62,42,30,.55)', letterSpacing: '.04em', textTransform: 'uppercase', marginBottom: 8 }}>
-                  {lang === 'th' ? 'รายการสินค้า' : 'Items'}
+                  {window.BB.t('itemsLabel', lang)}
                 </div>
                 {items.map(({ p, qty }) => (
                   <div key={p.id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid rgba(62,42,30,.06)' }}>
@@ -851,11 +845,11 @@ function Checkout({ lang, nav, cart, clearCart }) {
                   </div>
                 ))}
               </div>
-              <Field label={lang === 'th' ? 'หมายเหตุถึงร้าน (ถ้ามี)' : 'Order notes (optional)'} value={form.notes} onChange={(v) => update('notes', v)} multiline rows={2}/>
+              <Field label={window.BB.t('orderNotes', lang)} value={form.notes} onChange={(v) => update('notes', v)} multiline rows={2}/>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
-                <Btn kind="ghost" onClick={() => setStep(2)}><I.chevL/> {lang === 'th' ? 'ย้อนกลับ' : 'Back'}</Btn>
+                <Btn kind="ghost" onClick={() => setStep(2)}><I.chevL/> {window.BB.t('back', lang)}</Btn>
                 <Btn kind="primary" size="lg" onClick={() => { clearCart(); setStep(4); }}>
-                  {lang === 'th' ? 'ยืนยันสั่งซื้อ' : 'Place order'} <I.check/>
+                  {window.BB.t('placeOrder', lang)} <I.check/>
                 </Btn>
               </div>
             </div>
@@ -867,15 +861,15 @@ function Checkout({ lang, nav, cart, clearCart }) {
                 display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18,
               }}><I.check width={36} height={36} strokeWidth={2.5}/></div>
               <h2 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 26, fontWeight: 500, color: 'var(--soil)', margin: '0 0 8px' }}>
-                {lang === 'th' ? 'ขอบคุณสำหรับคำสั่งซื้อ!' : 'Thank you for your order!'}
+                {window.BB.t('thankYou', lang)}
               </h2>
               <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 14.5, color: 'rgba(62,42,30,.65)', margin: '0 0 6px' }}>
-                {lang === 'th' ? 'หมายเลขคำสั่งซื้อ' : 'Order number'}: <strong style={{ color: 'var(--soil)' }}>#BB-{Date.now().toString().slice(-6)}</strong>
+                {window.BB.t('orderNumber', lang)}: <strong style={{ color: 'var(--soil)' }}>#BB-{Date.now().toString().slice(-6)}</strong>
               </p>
               <p style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 13.5, color: 'rgba(62,42,30,.55)', margin: '0 0 24px' }}>
-                {lang === 'th' ? 'รายละเอียดจัดส่งทาง LINE / SMS' : 'Tracking details via LINE / SMS'}
+                {window.BB.t('trackingInfo', lang)}
               </p>
-              <Btn kind="primary" onClick={() => nav('dashboard')}>{lang === 'th' ? 'ดูคำสั่งซื้อ' : 'View order'} <I.chevR/></Btn>
+              <Btn kind="primary" onClick={() => nav('dashboard')}>{window.BB.t('viewOrder', lang)} <I.chevR/></Btn>
             </div>
           )}
         </div>
@@ -887,13 +881,13 @@ function Checkout({ lang, nav, cart, clearCart }) {
               border: '1px solid rgba(62,42,30,.06)', position: 'sticky', top: 90,
             }}>
               <h3 style={{ fontFamily: '"Prompt", sans-serif', fontSize: 15, fontWeight: 600, color: 'var(--soil)', margin: '0 0 14px' }}>
-                {lang === 'th' ? 'สรุป' : 'Summary'}
+                {window.BB.t('checkoutSummary', lang)}
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
                 {items.map(({ p, qty }) => (
                   <div key={p.id} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                     <div style={{ width: 44, height: 44, borderRadius: 8, overflow: 'hidden', background: '#EDE8DC', flexShrink: 0 }}>
-                      <img src={p.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+                      <img src={p.img} alt={lang === 'th' ? p.th : p.en} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
                       <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, color: 'var(--soil)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lang === 'th' ? p.th : p.en}</div>

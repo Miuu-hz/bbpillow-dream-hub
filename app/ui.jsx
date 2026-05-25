@@ -131,6 +131,7 @@ function Badge({ children, kind = 'soil' }) {
 // Product card
 // ─────────────────────────────────────────────────────────────
 function ProductCard({ p, lang, onClick, onAdd, compact }) {
+  const t = window.BB.t;
   const [liked, setLiked] = useState(false);
   const name = lang === 'th' ? p.th : p.en;
   const off = Math.round(((p.compare - p.price) / p.compare) * 100);
@@ -169,7 +170,7 @@ function ProductCard({ p, lang, onClick, onAdd, compact }) {
             <Badge kind="sage">{lang === 'th' ? 'ใหม่' : 'New'}</Badge>
           </div>
         )}
-        <button onClick={(e) => { e.stopPropagation(); setLiked(l => !l); }} style={{
+        <button aria-label={t('wishlist', lang)} onClick={(e) => { e.stopPropagation(); setLiked(l => !l); }} style={{
           position: 'absolute', bottom: 10, right: 10,
           width: 32, height: 32, borderRadius: '50%',
           background: liked ? 'var(--clay)' : 'rgba(255,255,255,.88)',
@@ -254,18 +255,19 @@ function SectionHd({ eyebrow, title, sub, action }) {
 // ─────────────────────────────────────────────────────────────
 // Step counter (qty)
 // ─────────────────────────────────────────────────────────────
-function QtyStep({ value, onChange, min = 1, max = 99 }) {
+function QtyStep({ value, onChange, lang, min = 1, max = 99 }) {
+  const t = window.BB.t;
   return (
     <div style={{
       display: 'inline-flex', alignItems: 'center', gap: 0,
       border: '1px solid rgba(62,42,30,.15)', borderRadius: 999, background: '#fff',
     }}>
-      <button onClick={() => onChange(Math.max(min, value - 1))} style={iconBtn}><I.minus/></button>
+      <button aria-label={t('decreaseQty', lang)} onClick={() => onChange(Math.max(min, value - 1))} style={iconBtn}><I.minus/></button>
       <span style={{
         minWidth: 32, textAlign: 'center', fontFamily: '"Prompt", sans-serif',
         fontSize: 15, fontWeight: 500, color: 'var(--soil)',
       }}>{value}</span>
-      <button onClick={() => onChange(Math.min(max, value + 1))} style={iconBtn}><I.plus/></button>
+      <button aria-label={t('increaseQty', lang)} onClick={() => onChange(Math.min(max, value + 1))} style={iconBtn}><I.plus/></button>
     </div>
   );
 }

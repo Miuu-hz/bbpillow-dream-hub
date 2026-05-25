@@ -146,7 +146,7 @@ function MiniMiniCard({ p, lang, onClick }) {
       <div style={{
         aspectRatio: '1', borderRadius: 12, overflow: 'hidden', background: '#EDE8DC', marginBottom: 6,
       }}>
-        <img src={p.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+        <img src={p.img} alt={lang === 'th' ? p.th : p.en} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
       </div>
       <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, color: 'var(--soil)', lineHeight: 1.3,
         display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
@@ -166,7 +166,7 @@ function MiniCard({ p, lang, onClick, onAdd }) {
       border: '1px solid rgba(62,42,30,.06)',
     }}>
       <div style={{ aspectRatio: '1', overflow: 'hidden', background: '#EDE8DC', position: 'relative' }}>
-        <img src={p.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+        <img src={p.img} alt={lang === 'th' ? p.th : p.en} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
         <button onClick={(e) => { e.stopPropagation(); onAdd(p); }} style={{
           position: 'absolute', bottom: 6, right: 6,
           width: 30, height: 30, borderRadius: '50%', border: 0, cursor: 'pointer',
@@ -203,7 +203,7 @@ function MiniPDP({ lang, route, go, addToCart }) {
   return (
     <div style={{ paddingBottom: 80 }}>
       <div style={{ aspectRatio: '1', background: '#EDE8DC', position: 'relative' }}>
-        <img src={p.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+        <img src={p.img} alt={lang === 'th' ? p.th : p.en} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
         <div style={{ position: 'absolute', top: 12, left: 12, display: 'flex', gap: 6 }}>
           <Badge kind="clay">-{off}%</Badge>
           {p.badges && p.badges.includes('best-seller') && <Badge kind="paper">{lang === 'th' ? 'ขายดี' : 'Best'}</Badge>}
@@ -294,7 +294,7 @@ function MiniCart({ lang, cart, updateQty, removeFromCart, go }) {
             background: '#fff', borderRadius: 12, border: '1px solid rgba(62,42,30,.06)',
           }}>
             <div style={{ aspectRatio: '1', borderRadius: 8, overflow: 'hidden', background: '#EDE8DC' }}>
-              <img src={p.img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
+              <img src={p.img} alt={lang === 'th' ? p.th : p.en} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }}/>
             </div>
             <div style={{ minWidth: 0, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
               <div style={{ fontFamily: '"Sarabun", sans-serif', fontSize: 12.5, color: 'var(--soil)', lineHeight: 1.3,
